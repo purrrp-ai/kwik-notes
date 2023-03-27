@@ -1,0 +1,190 @@
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  border-radius: inherit;
+  padding: 0.75em 1.25em;
+  box-shadow: 12px 1px 10px;
+  background-color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.app-bar div button {
+  all: unset;
+  cursor: pointer;
+  padding: 0.5em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-bar div button:hover {
+  background-color: hsla(205, 20%, 19%, 0.1);
+}
+
+.app-bar div button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background-color: var(--deep-blue);
+  opacity: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  transform: scale(0.8);
+}
+
+.app-bar div button:focus::before {
+  opacity: 0.25;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.logo-link {
+  all: unset;
+  cursor: pointer;
+  font-family: "Gloria Hallelujah", cursive;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.375em;
+  padding: 0.3em 0.5em;
+  border-radius: 4px;
+}
+
+.logo-link:hover {
+  background-color: hsla(205, 20%, 19%, 0.2);
+}
+
+.logo-link span {
+  user-select: none;
+  pointer-events: none;
+}
+
+.logo-link::before,
+.logo-link::after,
+.search-form::before {
+  content: "";
+  position: absolute;
+}
+
+.logo-link::before {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: scale(0.9);
+  z-index: -1;
+  width: 100%;
+  background-color: var(--deep-blue);
+  opacity: 0;
+}
+
+@keyframes pulsate {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.logo-link:focus::before {
+  opacity: 0.7;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.logo-link::after {
+  bottom: 3px;
+  left: 0;
+  background-color: var(--notepad);
+  width: 0;
+  height: 1px;
+}
+
+.logo-link:hover::after {
+  width: 100%;
+  transform-origin: right;
+}
+
+.search-form {
+  background-color: hsla(0, 0%, 100%, 0.1);
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding-right: 0.75em;
+  margin-inline: 4em;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-form::before {
+  background-color: var(--notepad);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  z-index: -1;
+  bottom: 0;
+  left: 0;
+  translate: -20% 60%;
+  transform: scale(0);
+  transition: 0.3s ease-in-out;
+}
+
+@keyframes pulsate2 {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.search-form:has(:hover):not(:has(:focus)) {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}
+
+.search-form:has(:focus)::before {
+  animation: pulsate2 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.search-form__input {
+  all: unset;
+  padding: 0.75em;
+  padding-right: 0;
+  font-size: 1.125em;
+  width: 100%;
+  transition: 0.3s ease-in-out;
+  text-overflow: ellipsis;
+  width: 28ch;
+}
+
+.search-form__input:focus {
+  width: 35ch;
+  transform-origin: center;
+}
+
+/* .app-bar .search-form .search-form__submit {} */
+
+.app-bar div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.divider {
+  height: 100%;
+  min-height: 2.5em;
+  width: 2px;
+  background-color: var(--deep-blue);
+}

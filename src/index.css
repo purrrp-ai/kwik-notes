@@ -1,0 +1,28 @@
+:root {
+  --notepad: #f4ce73;
+  --kinda-teal: #79ccbf;
+  --deep-blue: #27323a;
+  font-family: "Quicksand", sans-serif;
+  color: var(--deep-blue);
+}
+
+*::before,
+*,
+*::after {
+  font-family: inherit;
+  box-sizing: inherit;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 20em;
+  min-height: 100vh;
+}

@@ -1,0 +1,7 @@
+.notes-wrapper {
+  padding: 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto; /* M.V.P */
+  gap: 0.875em;
+}

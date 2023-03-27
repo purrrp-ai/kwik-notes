@@ -1,0 +1,95 @@
+.actual-note {
+  all: unset;
+  width: 15em;
+  background-color: var(--notepad);
+  border: 1px solid transparent;
+  border-radius: 0.75em;
+  height: fit-content;
+  position: relative;
+}
+
+.actual-note:is(:hover, :focus) {
+  border-color: var(--deep-blue);
+}
+
+.toggle-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.3em;
+}
+
+.toggle-container button {
+  all: unset;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  padding: 0.2em;
+  font-size: 1.3em;
+  border: 1px solid transparent;
+}
+
+.toggle-container button:focus:not(:hover) {
+  border-color: currentColor;
+}
+
+.toggle-container button:hover:not(:focus) {
+  background-color: hsla(205, 20%, 19%, 0.3);
+}
+
+.toggle-container button svg {
+  font-size: 1em;
+}
+
+.note-attributes {
+  padding: 0.75em 1em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.note-title {
+  font-size: 1.125em;
+  font-weight: bold;
+}
+
+.note-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0.375em;
+  padding: 0 0.1875em 0.1875em;
+  transition-delay: 75ms;
+}
+
+.note-toolbar button {
+  all: unset;
+  border: 1px solid transparent;
+  font-size: 1.25em;
+  padding: 0.25em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.note-toolbar button svg {
+  font-size: inherit;
+}
+
+.note-toolbar button:focus:not(:hover) {
+  border-color: var(--deep-blue);
+}
+
+.note-toolbar button:hover {
+  background-color: hsla(205, 20%, 19%, 0.3);
+}
+
+.toggle-container,
+.note-toolbar {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.actual-note:is(:hover, :focus-within) :is(.toggle-container, .note-toolbar) {
+  opacity: 1;
+  visibility: visible;
+}

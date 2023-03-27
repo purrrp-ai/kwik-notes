@@ -1,0 +1,8 @@
+.home {
+  /* flex-grow: 1; */
+  width: 82%;
+  background-color: var(--kinda-teal);
+  border-top-left-radius: 2.5rem;
+  /* overflow: hidden; */
+  position: relative;
+}
