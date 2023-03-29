@@ -1,5 +1,7 @@
-import { Brush, CheckBox, Image } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import Brush from "@mui/icons-material/Brush";
+import CheckBox from "@mui/icons-material/CheckBox";
+import Image from "@mui/icons-material/Image";
+import IconButton from "@mui/material/IconButton/IconButton";
 import classes from "./create.module.css";
 
 export default function Create() {

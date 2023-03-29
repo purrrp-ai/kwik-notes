@@ -1,14 +1,12 @@
-import {
-  Apps,
-  // CloudDone,
-  GridView,
-  Person,
-  Refresh,
-  Search,
-  Settings,
-  // Sync,
-  ViewAgenda,
-} from "@mui/icons-material";
+import Apps from "@mui/icons-material/Apps";
+// import CloudDone from "@mui/icons-material/CloudDone";
+import GridView from "@mui/icons-material/GridView";
+import Person from "@mui/icons-material/Person";
+import Refresh from "@mui/icons-material/Refresh";
+import Search from "@mui/icons-material/Search";
+import Settings from "@mui/icons-material/Settings";
+// import Sync from "@mui/icons-material/Sync";
+import ViewAgenda from "@mui/icons-material/ViewAgenda";
 import IconButton from "@mui/material/IconButton/IconButton";
 import * as React from "react";
 import KwikNotesLogo from "../../../../logo/logo";

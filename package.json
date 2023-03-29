@@ -2,7 +2,7 @@
   "name": "kwik-notes",
   "private": true,
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "Unilicense",
   "type": "module",
   "scripts": {
     "notes:api": "json-server --watch notes.json",
@@ -14,6 +14,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
+    "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.14",
     "cors": "^2.8.5",
     "react": "^18.2.0",

@@ -1,7 +1,13 @@
 .notes-wrapper {
-  padding: 0.5em;
-  display: flex;
-  flex-wrap: wrap;
-  overflow: auto; /* M.V.P */
-  gap: 0.875em;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.notes-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notes-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--deep-blue);
 }

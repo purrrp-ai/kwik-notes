@@ -1,15 +1,18 @@
 .actual-note {
   all: unset;
-  width: 15em;
-  background-color: var(--notepad);
-  border: 1px solid transparent;
+  margin-bottom: 1.5em;
+  background: var(--notepad);
+  border: 1px solid hsla(205, 20%, 19%, 0.5);
   border-radius: 0.75em;
-  height: fit-content;
   position: relative;
 }
 
-.actual-note:is(:hover, :focus) {
-  border-color: var(--deep-blue);
+.actual-note:focus {
+  border-color: hsla(205, 20%, 19%, 0.9);
+}
+
+.actual-note:hover {
+  box-shadow: hsla(205, 20%, 19%, 0.4) 0px 2px 8px 0px;
 }
 
 .toggle-container {

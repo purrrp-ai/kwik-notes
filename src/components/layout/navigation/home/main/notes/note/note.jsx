@@ -1,28 +1,20 @@
-import {
-  AddAlert,
-  Archive,
-  ColorLens,
-  Image,
-  MoreVert,
-  PersonAddAlt1,
-  PushPin,
-  PushPinOutlined,
-} from "@mui/icons-material";
+import AddAlert from "@mui/icons-material/AddAlert";
+import Archive from "@mui/icons-material/Archive";
+import ColorLens from "@mui/icons-material/ColorLens";
+import Image from "@mui/icons-material/Image";
+import MoreVert from "@mui/icons-material/MoreVert";
+import PersonAddAlt1 from "@mui/icons-material/PersonAddAlt1";
+import PushPin from "@mui/icons-material/PushPin";
+import PushPinOutlined from "@mui/icons-material/PushPinOutlined";
 import axios from "redaxios";
-import classes from "./note.module.css";
 import NoteList from "./note-list/note-list";
+import classes from "./note.module.css";
 
 function toggleImportance(id, note) {
   axios
     .create({ baseURL: "/notes" })
-    .put(`/${id}?_=${Math.random()}`, { ...note, important: !note.important })
-    .then((response) =>
-      console.log(
-        `the note is ${
-          response.data.important ? "now important" : "no longer important"
-        }.`
-      )
-    )
+    .put(`/${id}`, { ...note, important: !note.important })
+    .then(() => console.log(note.important ? "note unpinned" : "note pinned"))
     .catch((error) => console.log(error.response.data.error));
 }
 

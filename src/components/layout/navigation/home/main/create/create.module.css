@@ -1,12 +1,23 @@
 .create-wrapper {
-  border: 1px solid var(--deep-blue);
+  border: 1px solid hsla(205, 20%, 19%, 0.5);
+  box-shadow: hsla(205, 20%, 19%, 0.8) 1.95px 1.95px 2.6px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: var(--notepad);
   width: 50%;
-  position: relative;
+  max-width: 37.5em;
+  position: sticky;
+  z-index: 7;
+  top: 4em;
+  left: 0;
+  right: 0;
+  margin: 0 auto 1.5em;
+}
+
+.create-wrapper:has(input:focus) {
+  border-color: hsla(205, 20%, 19%, 0.8);
 }
 
 .placeholder {
@@ -14,7 +25,7 @@
   flex-grow: 1;
   font-family: "Gloria Hallelujah", cursive;
   font-size: 1.125em;
-  padding: 0.3em 0.6em;
+  padding: 0.6em;
   width: 100%;
 }
 

@@ -1,18 +1,17 @@
-import {
-  Archive,
-  ChevronLeft,
-  Create,
-  Delete,
-  GitHub,
-  Lightbulb,
-  Menu,
-  NotificationsNone,
-} from "@mui/icons-material";
+import Archive from "@mui/icons-material/Archive";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import Create from "@mui/icons-material/Create";
+import Delete from "@mui/icons-material/Delete";
+import GitHub from "@mui/icons-material/GitHub";
+import Lightbulb from "@mui/icons-material/LightBulb";
+import Menu from "@mui/icons-material/Menu";
+import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import * as React from "react";
+import { Data } from "../../../context";
 import classes from "./drawer.module.css";
 
 export default function Drawer() {
-  const [collapse, setCollapse] = React.useState(false);
+  const { collapse, setCollapse } = React.useContext(Data);
   const drawerClasses = [classes["drawer"]];
   if (collapse) drawerClasses.push(classes["drawer-collapsed"]);
 
@@ -25,26 +24,28 @@ export default function Drawer() {
         </button>
         <span className={classes["divider"]}></span>
         <div className={classes["nav"]}>
-          <a href={"/"}>
-            <Lightbulb />
-            {collapse ? null : <span>Notes</span>}
-          </a>
-          <a href={"/reminders"}>
-            <NotificationsNone />
-            {collapse ? null : <span>Prompts</span>}
-          </a>
+          {[
+            { href: "/", icon: <Lightbulb />, label: "Notes" },
+            { href: "/prompts", icon: <NotificationsNone />, label: "Prompts" },
+          ].map((item, i) => (
+            <a key={`${item.label}-${i}`} href={item.href}>
+              {item.icon}
+              {collapse ? null : <span>{item.label}</span>}
+            </a>
+          ))}
           <button onClick={() => null}>
             <Create />
             {collapse ? null : <span>Modify tags</span>}
           </button>
-          <a href={"/archive"}>
-            <Archive />
-            {collapse ? null : <span>Stash</span>}
-          </a>
-          <a href={"/thrash"}>
-            <Delete />
-            {collapse ? null : <span>Bin</span>}
-          </a>
+          {[
+            { href: "/stash", icon: <Archive />, label: "Stash" },
+            { href: "/bin", icon: <Delete />, label: "Bin" },
+          ].map((item, i) => (
+            <a key={`${item.label}-${i}`} href={item.href}>
+              {item.icon}
+              {collapse ? null : <span>{item.label}</span>}
+            </a>
+          ))}
         </div>
       </div>
       <a
