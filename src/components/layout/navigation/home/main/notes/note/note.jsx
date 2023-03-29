@@ -55,7 +55,11 @@ export default function Note({ note }) {
       </section>
       <div className={classes["note-toolbar"]}>
         {toolbarBtns.map((item, i) => (
-          <button key={i} aria-label={item.tooltip} onClick={item.clickFunc}>
+          <button
+            key={`${i}-${item.tooltip}`}
+            aria-label={item.tooltip}
+            onClick={item.clickFunc}
+          >
             {item.icon}
           </button>
         ))}
