@@ -1,13 +1,11 @@
-.notes-wrapper {
-  overflow: auto;
-  width: 100%;
-  height: 100%;
+.notes-wrapper_list {
+  margin: 4em auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625em;
 }
 
-.notes-wrapper::-webkit-scrollbar {
-  width: 8px;
-}
-
-.notes-wrapper::-webkit-scrollbar-thumb {
-  background-color: var(--deep-blue);
+.notes-wrapper_list > div {
+  width: 40em;
 }

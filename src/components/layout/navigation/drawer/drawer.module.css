@@ -1,8 +1,10 @@
 .drawer-wrapper {
-  display: flex;
+  height: 100%;
+  display: inline-flex;
   flex-direction: column;
   gap: 0.5em;
   padding-block: 0.75em;
+  margin-right: 0.75em;
 }
 
 .drawer {
@@ -10,7 +12,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.3em;
 }
 
 .drawer-collapsed {
@@ -99,7 +101,7 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 0.2em;
+  gap: 0.3em;
 }
 
 .attribution {

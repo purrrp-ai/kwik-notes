@@ -10,7 +10,7 @@
   max-width: 37.5em;
   position: sticky;
   z-index: 7;
-  top: 4em;
+  top: 3em;
   left: 0;
   right: 0;
   margin: 0 auto 1.5em;
@@ -33,12 +33,8 @@
   display: flex;
   align-items: center;
   gap: 0.75em;
-  padding-inline: 0.6em;
+  padding-inline-end: 0.6em;
   pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .modes button {

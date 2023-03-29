@@ -6,7 +6,7 @@ import Note from "./note/note";
 import classes from "./notes.module.css";
 
 export default function Notes() {
-  const { collapse, notes, setNotes } = React.useContext(Data);
+  const { collapse, notes, setNotes, gridView } = React.useContext(Data);
   React.useEffect(() => {
     axios
       .create({ baseURL: "/notes" })
@@ -14,15 +14,32 @@ export default function Notes() {
       .then((response) => setNotes(response.data))
       .catch((error) => console.error(error.response.data.error));
   }, []);
-  return (
-    <Masonry
-      columns={{ xl: collapse ? 7 : 6, lg: collapse ? 5 : 4, sm: 3, xs: 1 }}
-      spacing={1}
-      className={classes["notes-wrapper"]}
-    >
-      {notes.map((note) => (
-        <Note key={note.id} note={note} />
-      ))}
-    </Masonry>
-  );
+  const gridViewCols = {
+    xl: collapse ? 7 : 6,
+    lg: collapse ? 5 : 4,
+    sm: 3,
+    xs: 1,
+  };
+  if (gridView) {
+    return (
+      <Masonry
+        columns={gridViewCols}
+        spacing={1.25}
+        sx={{ mt: 8 }}
+        className={classes["notes-wrapper_grid"]}
+      >
+        {notes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+      </Masonry>
+    );
+  } else {
+    return (
+      <div className={classes["notes-wrapper_list"]}>
+        {notes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+      </div>
+    );
+  }
 }
