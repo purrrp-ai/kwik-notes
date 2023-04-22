@@ -1,0 +1,246 @@
+.create-wrapper {
+  border: 1px solid hsla(42, 85%, 70%, 0.3);
+  box-shadow: hsla(42, 85%, 70%, 0.3) 1.95px 1.95px 2.6px;
+  border-radius: 4px;
+  background-color: var(--deep-blue);
+  color: var(--kinda-teal);
+  width: 50%;
+  height: auto;
+  max-width: 37.5em;
+  position: sticky;
+  z-index: 7;
+  top: 3em;
+  left: 0;
+  right: 0;
+  margin: 0 auto 1.5em;
+}
+
+.create-wrapper-flex {
+  display: flex;
+  align-items: center;
+}
+
+.create-wrapper:has(:focus) {
+  border-color: hsla(42, 85%, 70%, 0.8);
+}
+
+.note-props {
+  width: auto;
+  height: auto;
+  position: relative;
+}
+
+/* .title-field-wrapper {} */
+
+.title-field-wrapper {
+  border: 1px solid transparent;
+  font-weight: 700;
+}
+
+.title-field-placeholder {
+  position: absolute;
+  width: 100%;
+  min-height: 48px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1.5rem;
+  padding: 0.625em 1em;
+  padding-bottom: 0.75em;
+  opacity: 0.85;
+}
+
+.title-field {
+  outline: 1px solid transparent;
+  min-height: 48px;
+  padding: 0.625em 1em;
+  padding-right: 3em;
+  line-height: 1.5em;
+  white-space: pre-wrap;
+}
+
+.content-field-wrapper {
+  font-size: 0.9em;
+  line-height: 1.25em;
+  font-family: "Gloria Hallelujah", cursive;
+  border: 1px solid transparent;
+}
+
+.content-field-placeholder {
+  position: absolute;
+  width: 100%;
+  min-height: 48px;
+  pointer-events: none;
+  user-select: none;
+  padding: 0.833em 1.111em;
+  opacity: 0.85;
+}
+
+.content-field {
+  outline: 1px solid transparent;
+  min-height: 48px;
+  padding: 0.833em 1.111em;
+}
+
+.pin-checkbox {
+  font-size: 1.5em;
+  padding: 6px;
+  border-radius: 50%;
+  outline: 1px solid transparent;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  top: 0.3em;
+  right: 0.5em;
+  z-index: 7;
+}
+
+.pin-checkbox input[type="checkbox"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.pin-checkbox svg {
+  opacity: 0.8;
+}
+
+.pin-checkbox:is(:focus, :hover) {
+  background-color: hsla(171, 45%, 64%, 0.15);
+}
+
+.pin-checkbox:is(:focus, :hover) svg {
+  opacity: 1;
+}
+
+.more-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.25em 0;
+  padding: 0 0.5em;
+}
+
+.more-options > button {
+  all: unset;
+  padding: 0.5em 1.5em;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.more-options > button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--kinda-teal);
+  z-index: -1;
+  opacity: 0;
+}
+
+.more-options > button:is(:hover, :focus)::before {
+  opacity: 0.1;
+}
+
+.toolbar-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex: 1 0 auto;
+}
+
+.toolbar-btns button svg {
+  font-size: 1.125em;
+}
+
+.pre-modes {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding-inline-end: 0.6em;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+}
+
+.pre-modes button,
+.toggle-wrapper button,
+.toolbar-btns button {
+  all: unset;
+  pointer-events: auto;
+  padding: 0.5em;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pre-modes button::before,
+.pre-modes button::after,
+.toggle-wrapper button::before,
+.toggle-wrapper button::after,
+.toolbar-btns button::before,
+.toolbar-btns button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--kinda-teal);
+  z-index: -10;
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0.4);
+    opacity: 0.2;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0.1;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 0.1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+}
+
+.pre-modes button:hover,
+.toolbar-btns button:hover,
+.toggle-wrapper button:hover {
+  background-color: hsla(171, 45%, 64%, 0.1);
+}
+
+.pre-modes button:focus::before,
+.toolbar-btns button:focus::before,
+.toggle-wrapper button:focus::before {
+  animation: pulse 1s cubic-bezier(0.4, 0, 0.2, 1) 0s infinite alternate both;
+}
+
+.pre-modes button:active::after,
+.toolbar-btns button:active::after,
+.toggle-wrapper button:active::after {
+  animation: ripple 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 alternate both;
+}
+
+.hide-whatever-the-fuck-has-this-class-name {
+  display: none !important;
+}

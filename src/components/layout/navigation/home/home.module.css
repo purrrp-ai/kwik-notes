@@ -1,8 +1,0 @@
-.home {
-  flex-grow: 1;
-  height: 100%;
-  display: inline-block;
-  background-color: var(--kinda-teal);
-  /* border-top-left-radius: 2.5rem; */
-  position: relative;
-}

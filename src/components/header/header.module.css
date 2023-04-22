@@ -1,0 +1,197 @@
+.app-bar {
+  max-height: 4.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  border-radius: inherit;
+  padding: 0.75em;
+  box-shadow: 12px 1px 10px;
+  background-color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.app-bar div button {
+  all: unset;
+  cursor: pointer;
+  padding: 0.5em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-bar div button:hover {
+  background-color: hsla(205, 20%, 19%, 0.1);
+}
+
+.app-bar div button::before,
+.logo-link::before,
+.logo-link::after,
+.search-form__input::before {
+  content: "";
+  position: absolute;
+}
+
+.app-bar div button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  background-color: var(--deep-blue);
+  opacity: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  transform: scale(0.8);
+}
+
+.app-bar div button:focus::before {
+  opacity: 0.25;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.logo-link {
+  all: unset;
+  cursor: pointer;
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 1.375em;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.375em;
+  padding: 0.3em 0.5em;
+  margin-inline-end: 1.875em;
+  border-radius: 4px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+.logo-link:hover {
+  background-color: hsla(205, 20%, 19%, 0.2);
+}
+
+.logo-link span {
+  user-select: none;
+  pointer-events: none;
+}
+
+.logo-link::before {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: scale(0.95);
+  z-index: -1;
+  width: 100%;
+  background-color: var(--deep-blue);
+  opacity: 0;
+}
+
+@keyframes pulsate {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.logo-link:focus::before {
+  opacity: 0.3;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.logo-link::after {
+  bottom: 3px;
+  left: 0;
+  background-color: var(--notepad);
+  width: 0;
+  height: 1px;
+}
+
+.logo-link:hover::after {
+  width: 100%;
+  transform-origin: right;
+}
+
+.form-btns {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  justify-content: flex-start;
+}
+
+.btns {
+  display: flex;
+  gap: 0.2em;
+}
+
+.search-form {
+  padding-inline-start: 0.625em;
+  padding-inline-end: 1.875em;
+  position: relative;
+  max-width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  display: flex;
+  align-items: center;
+}
+
+.search-form__input {
+  all: unset;
+  display: inline-block;
+  background-color: hsla(0, 0%, 100%, 0.1);
+  border-radius: 4px 0 0 4px;
+  padding: 0.6875em;
+  padding-right: 0.34375em;
+  font-size: 1.125em;
+  width: 100%;
+  transition: 0.3s ease-in-out;
+  width: 28ch;
+}
+
+.search-form__input:is(:hover):not(:focus) {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}
+
+.search-form__input:focus {
+  width: 28vw;
+  transform-origin: center;
+}
+
+.app-bar .search-form .search-form__submit {
+  border-radius: 0 4px 4px 0;
+  padding: 0.745em;
+  background-color: hsla(0, 0%, 100%, 0.1);
+}
+
+.app-bar .search-form .search-form__submit:hover {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}
+
+.app-bar div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: flex-end; */
+  /* flex: 0 0 auto; */
+  gap: 0.5em;
+}
+
+.divider {
+  height: 100%;
+  min-height: 2.5em;
+  width: 2px;
+  background-color: var(--deep-blue);
+  margin-inline: 0.325em;
+}
