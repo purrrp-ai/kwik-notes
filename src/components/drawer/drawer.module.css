@@ -1,49 +1,93 @@
-.drawer-wrapper {
-  height: 100%;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0.5em;
-  padding-block: 0.75em;
-  margin-right: 0.75em;
-}
-
 .drawer {
-  width: 20em;
+  padding: 0.6em 0;
+  width: 17.5rem;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 0.3em;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  margin-right: 0.8em;
+  gap: 0.2em;
+  transition: width 1s linear;
 }
 
-.drawer-closed {
+.drawer-collapsed {
   width: auto; /* 5em */
 }
 
-.collapsible-nav-link,
-.collapsible-nav-btn {
-  all: unset;
-  cursor: pointer;
-  min-height: 3em;
+.nav-links-btns {
   display: flex;
-  justify-content: flex-start;
+  flex-flow: column nowrap;
+  gap: 0.25em;
+  flex: 1 1 100%;
+}
+
+.expand-toggle {
+  flex: 1 0 auto;
+}
+
+.collapsible-btn,
+.collapsible-link {
+  border: none;
+  border-radius: 0 48px 48px 0;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  padding-left: 0.75em;
-  border-radius: 0 3em 3em 0;
-  font-size: 1.125em;
-  font-weight: bold;
+  height: 48px;
+  min-width: 48px;
+  padding: 0 0 0 0.9em;
   position: relative;
   overflow: hidden;
 }
 
-.collapsible-nav-link::before,
-.collapsible-nav-btn::before {
+.collapsible-link {
+  text-decoration: none;
+}
+
+:is(.collapsible-btn, .collapsible-link) svg {
+  box-sizing: content-box;
+  padding: 0 0.5em;
+}
+
+:is(.collapsible-btn, .collapsible-link) span {
+  user-select: none;
+  pointer-events: none;
+  margin-left: 1.25em;
+  font-weight: bolder;
+}
+
+.drawer.drawer-collapsed :is(.collapsible-btn, .collapsible-link) span {
+  margin-left: 0;
+}
+.drawer-collapsed :is(.collapsible-btn, .collapsible-link) {
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  padding-left: 0;
+  margin-left: 0.6em;
+}
+
+:is(.collapsible-btn, .collapsible-link):not(:focus):hover {
+  background-color: hsl(205, 20%, 19%, 0.05);
+}
+
+.collapsible-link.active {
+  background-color: hsla(171, 45%, 64%, 0.4);
+}
+
+.collapsible-link.active:hover {
+  background-color: hsla(171, 45%, 64%, 0.4);
+}
+
+:is(.collapsible-btn, .collapsible-link)::before {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
   border-radius: 50%;
-  transform: scale(0.9);
+  transform: scale(0.8);
   z-index: -1;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -53,132 +97,93 @@
 
 @keyframes pulsate {
   from {
-    transform: scale(0.9);
+    transform: scale(0.8);
   }
   to {
-    transform: scale(1);
+    transform: scale(0.95);
   }
 }
 
-.drawer-closed .collapsible-nav-link,
-.drawer-closed .collapsible-nav-btn {
-  justify-content: center;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  padding-left: 0;
-  margin-left: 0.5em;
-}
-
-.collapsible-nav-link:not(:focus):hover,
-.collapsible-nav-btn:not(:focus):hover {
-  background-color: hsl(205, 20%, 19%, 0.05);
-}
-
-.collapsible-nav-link.active {
-  background-color: hsla(171, 45%, 64%, 0.25);
-}
-
-.collapsible-nav-link.active:hover {
-  background-color: hsla(171, 45%, 64%, 0.25);
-}
-
-.collapsible-nav-link:focus::before,
-.collapsible-nav-btn:focus::before {
-  opacity: 0.2;
-  animation-name: pulsate;
-  animation-duration: 1.25s;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-fill-mode: both;
-}
-
-.collapsible-nav-link svg,
-.collapsible-nav-btn svg {
-  padding: 0 0.5em;
-}
-
-.collapsible-nav-link span,
-.collapsible-nav-btn span {
-  user-select: none;
-  pointer-events: none;
-  margin-left: 1.25em;
-}
-
-.divider {
-  background-color: var(--deep-blue);
-  width: 90%;
-  height: 1px;
-  margin-block: 2px;
-  margin-inline-start: calc(5% + 0.25em);
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
-}
-
-.attribution {
-  all: unset;
-  --gh-dark: #0d1117;
-  cursor: pointer;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  margin-block: 0.5em;
-  display: flex;
-  align-items: center;
-  font-family: "Gloria Hallelujah", cursive;
-  background-color: var(--deep-blue);
-  color: var(--kinda-teal);
-  border: 1px solid;
-  padding: 0.4em;
-  border-radius: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.drawer.drawer-closed + .attribution {
-  margin-right: 0.5625em;
-}
-
-.attribution::before,
-.attribution::after {
-  content: "";
-  position: absolute;
-}
-
-.attribution::before {
-  width: 80%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background-color: var(--kinda-teal);
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  transform: scale(0.9);
-  opacity: 0;
-}
-
-.attribution:focus::before {
-  opacity: 0.2;
+:is(.collapsible-btn, .collapsible-link):focus::before {
+  opacity: 0.1;
   animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
 }
 
-.attribution:not(:focus):hover {
+.divider {
+  background-color: hsla(0, 0%, 0%, 0.4);
+  width: 90%;
+  height: 1px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: calc(5% + 0.375em);
+}
+
+.collapsible-link.attribution {
+  display: flex;
+  align-items: center;
+  font-family: "Gloria Hallelujah", cursive;
+  color: #fff;
+  background-color: #0d1117;
+  border: 2px solid transparent;
+  border-radius: 6em;
+  outline: 1px solid transparent;
+  position: relative;
+  z-index: 5;
+  /* padding: 0; */
+  padding: 0.2em 0.3em;
+  flex: 0 0 auto;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.drawer.drawer-collapsed .collapsible-link.collapsible-link.attribution {
+  width: auto;
+  margin: initial;
+  margin-left: 0.6em;
+}
+
+.collapsible-link.attribution::before {
+  content: "";
+  position: absolute;
+  width: 80%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   background-color: #fff;
-  color: var(--gh-dark);
-  border-color: var(--gh-dark);
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  translate: -50% -50%;
+  transform: scale(0.85);
+  opacity: 0;
 }
 
-.attribution svg {
-  font-size: 1.125em;
+@keyframes attribution-focus-pulsate {
+  from {
+    transform: scale(0.85);
+  }
+  to {
+    transform: scale(1.15);
+  }
 }
 
-.attribution span {
-  margin-left: 0.3em;
-  pointer-events: none;
-  user-select: none;
+.collapsible-link.attribution:focus::before {
+  opacity: 0.2;
+  animation: attribution-focus-pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1)
+    infinite alternate both;
+}
+
+.collapsible-link.attribution:not(:focus):hover {
+  background-color: #fff;
+  color: #0d1117;
+  border-color: #238636;
+}
+
+.collapsible-link.attribution svg {
+  font-size: 2.25em;
+  padding: 0;
+}
+
+.collapsible-link.attribution span {
   font-size: 0.75em;
+  margin-left: 0.625em;
 }

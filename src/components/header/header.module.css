@@ -1,97 +1,52 @@
 .app-bar {
-  max-height: 4.5em;
+  max-height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5em;
-  border-radius: inherit;
-  padding: 0.75em;
+  padding: 0.5em;
   box-shadow: 12px 1px 10px;
-  background-color: inherit;
-  position: absolute;
+  background-color: var(--kinda-teal);
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
-}
-
-.app-bar div button {
-  all: unset;
-  cursor: pointer;
-  padding: 0.5em;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  position: relative;
-  overflow: hidden;
-}
-
-.app-bar div button:hover {
-  background-color: hsla(205, 20%, 19%, 0.1);
-}
-
-.app-bar div button::before,
-.logo-link::before,
-.logo-link::after,
-.search-form__input::before {
-  content: "";
-  position: absolute;
-}
-
-.app-bar div button::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  background-color: var(--deep-blue);
-  opacity: 0;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  transform: scale(0.8);
-}
-
-.app-bar div button:focus::before {
-  opacity: 0.25;
-  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
 }
 
 .logo-link {
-  all: unset;
-  cursor: pointer;
+  text-decoration: none;
+  outline: 1px solid transparent;
+  background-color: transparent;
   font-family: "Gloria Hallelujah", cursive;
   font-size: 1.375em;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 0.375em;
-  padding: 0.3em 0.5em;
-  margin-inline-end: 1.875em;
+  gap: 0.3em;
+  padding: 0.1em;
+  padding-left: 0;
+  padding-right: 0.2em;
+  margin-right: 1.875em;
   border-radius: 4px;
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: auto;
+  flex: 1 0 auto;
+  user-select: none;
 }
 
-.logo-link:hover {
+.logo-link:not(:focus):hover {
   background-color: hsla(205, 20%, 19%, 0.2);
 }
 
-.logo-link span {
-  user-select: none;
-  pointer-events: none;
-}
-
 .logo-link::before {
+  content: "";
+  position: absolute;
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  transform: scale(0.95);
-  z-index: -1;
-  width: 100%;
+  transform: scale(0.9);
   background-color: var(--deep-blue);
   opacity: 0;
 }
@@ -111,6 +66,8 @@
 }
 
 .logo-link::after {
+  content: "";
+  position: absolute;
   bottom: 3px;
   left: 0;
   background-color: var(--notepad);
@@ -123,69 +80,99 @@
   transform-origin: right;
 }
 
-.form-btns {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 100%;
+.search {
+  padding-right: 1.875em;
+  padding-left: 0.625em;
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
   justify-content: flex-start;
 }
 
-.btns {
-  display: flex;
-  gap: 0.2em;
+.search:has(:focus, :hover) :is(input, button) {
+  background-color: hsla(0, 0%, 100%, 0.25);
 }
 
-.search-form {
-  padding-inline-start: 0.625em;
-  padding-inline-end: 1.875em;
-  position: relative;
-  max-width: 100%;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: auto;
-  display: flex;
-  align-items: center;
+.focus-search-box,
+.clear-query-btn {
+  border: none;
+  outline: 1px solid transparent;
+  padding: 0.6725em;
+  background-color: hsla(0, 0%, 100%, 0.125);
+  display: grid;
+  place-items: center;
 }
 
-.search-form__input {
-  all: unset;
-  display: inline-block;
-  background-color: hsla(0, 0%, 100%, 0.1);
+.focus-search-box {
   border-radius: 4px 0 0 4px;
-  padding: 0.6875em;
-  padding-right: 0.34375em;
+}
+
+.search-box {
+  outline: 1px solid transparent;
+  border: none;
+  padding: 0.625em 0;
   font-size: 1.125em;
-  width: 100%;
+  background-color: hsla(0, 0%, 100%, 0.125);
   transition: 0.3s ease-in-out;
-  width: 28ch;
+  width: 32ch;
 }
 
-.search-form__input:is(:hover):not(:focus) {
-  background-color: hsla(0, 0%, 100%, 0.3);
-}
-
-.search-form__input:focus {
-  width: 28vw;
+.search-box:focus {
+  width: 32vw;
   transform-origin: center;
 }
 
-.app-bar .search-form .search-form__submit {
+.clear-query-btn {
   border-radius: 0 4px 4px 0;
-  padding: 0.745em;
-  background-color: hsla(0, 0%, 100%, 0.1);
 }
 
-.app-bar .search-form .search-form__submit:hover {
-  background-color: hsla(0, 0%, 100%, 0.3);
+.clear-query-btn:not(:focus):hover {
+  background-color: hsla(0, 0%, 100%, 0.375);
 }
 
-.app-bar div {
-  height: 100%;
+.nav-tools {
+  flex: 0 0 auto;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  /* justify-content: flex-end; */
-  /* flex: 0 0 auto; */
-  gap: 0.5em;
+  gap: 0.2em;
+}
+
+.header-btns {
+  border: none;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  padding: 0.5em;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-btns:not(:focus):hover {
+  background-color: hsla(205, 20%, 19%, 0.1);
+}
+
+.header-btns::before {
+  content: "";
+  position: absolute;
+  background-color: var(--deep-blue);
+  opacity: 0;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  transform: scale(0.9);
+}
+
+.header-btns:focus::before {
+  opacity: 0.25;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.form-btns {
+  flex: 1 1 100%;
+  justify-content: flex-start;
 }
 
 .divider {
@@ -193,5 +180,5 @@
   min-height: 2.5em;
   width: 2px;
   background-color: var(--deep-blue);
-  margin-inline: 0.325em;
+  margin: 0 0.3em;
 }

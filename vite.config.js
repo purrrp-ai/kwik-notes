@@ -23,4 +23,9 @@ export default vite.defineConfig({
       },
     },
   },
+  css: {
+    modules: {
+      localsConvention: "dashes",
+    },
+  },
 });

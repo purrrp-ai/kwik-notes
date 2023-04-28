@@ -1,0 +1,6 @@
+.prompts {
+  height: calc(100% - 64px);
+  padding: 1.5em;
+  overflow: hidden auto;
+  position: relative;
+}

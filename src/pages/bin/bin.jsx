@@ -2,26 +2,40 @@ import Drawer from "@components/drawer/drawer";
 import Header from "@components/header/header";
 import Delete from "@mui/icons-material/Delete";
 import * as React from "react";
-import style from "./bin.module.css";
+import styles from "./bin.module.css";
 
 export default function Bin() {
-  const notes_ = (
-    <div className={"empty-dependency"}>
+  const binned = (
+    <p className={"empty-dependency"}>
       <Delete sx={{ fontSize: "3em", opacity: 0.85, alignSelf: "center" }} />
       No binned notes
-    </div>
+    </p>
   );
 
   return (
-    <section className={"container"}>
+    <>
       <Drawer />
-      <section className={"main"}>
+      <main className={"main"}>
         <Header />
-        <div className={style["bin-emphasis"]}>
-          Binned notes are permanently deleted after 7 days
-        </div>
-        {notes_}
-      </section>
-    </section>
+        <section
+          className={styles.binned}
+          aria-label={"Your binned notes"}
+          role={"region"}
+        >
+          <div className={styles.binEmphasis}>
+            <em>Binned notes are permanently deleted after 7 days</em>
+            {binned.length && (
+              <button
+                type={"button"}
+                onClick={() => console.log("bin emptied.")}
+              >
+                Empty your bin
+              </button>
+            )}
+          </div>
+          {binned}
+        </section>
+      </main>
+    </>
   );
 }

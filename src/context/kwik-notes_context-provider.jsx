@@ -1,44 +1,36 @@
-import * as React from "react";
+import React, { createContext, useMemo, useState } from "react";
 // import KwikNotesContext from "./kwik-notes_context";
 
-export const KwikNotesContext = React.createContext({
-  user: null,
-  setUser: () => {},
-  theme: "light",
-  setTheme: () => {},
-  displayMasonry: true,
-  setDisplayMasonry: () => {},
-  drawerOpen: false,
-  setDrawerOpen: () => {},
-  searchQueryResults: [],
-  setSearchQueryResults: () => {},
+export const KwikNotesContext = createContext({
+  contexts: {
+    user: null,
+    theme: "light",
+    masonryDisplay: true,
+    drawerCollapsed: true,
+    queryResults: [],
+    showUserDetails: false,
+    showSignInModal: false,
+    showSignUpModal: false,
+  },
+  setContexts: () => {},
 });
 
 export function KwikNotesContextProvider({ children }) {
-  const [user, setUser] = React.useState(null);
-  const [theme, setTheme] = React.useState("light");
-  const [displayMasonry, setDisplayMasonry] = React.useState(true);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [searchQueryResults, setSearchQueryResults] = React.useState([]);
+  const [contexts, setContexts] = useState({
+    user: null,
+    theme: "light",
+    masonryDisplay: true,
+    drawerCollapsed: true,
+    queryResults: [],
+    showUserDetails: false,
+    showSignInModal: false,
+    showSignUpModal: false,
+  });
 
-  const memoizedKwikNotesContextValues = React.useMemo(
-    () => ({
-      user,
-      setUser,
-      theme,
-      setTheme,
-      displayMasonry,
-      setDisplayMasonry,
-      drawerOpen,
-      setDrawerOpen,
-      searchQueryResults,
-      setSearchQueryResults,
-    }),
-    [user, theme, displayMasonry, drawerOpen, searchQueryResults]
-  );
+  const contextValues = useMemo(() => ({ contexts, setContexts }), [contexts]);
 
   return (
-    <KwikNotesContext.Provider value={memoizedKwikNotesContextValues}>
+    <KwikNotesContext.Provider value={contextValues}>
       {children}
     </KwikNotesContext.Provider>
   );

@@ -1,9 +1,9 @@
-import {KwikNotesContext} from "@context/kwik-notes_context-provider";
+import { KwikNotesContext } from "@context/kwik-notes_context-provider";
 import * as muiIcons from "@mui/icons-material";
 import { updateNote } from "@services/note";
 import * as React from "react";
 import List from "./list/list";
-import classes from "./note.module.css";
+import styles from "./note.module.css";
 
 export default function Note({ note }) {
   const { notes, setNotes } = React.useContext(KwikNotesContext);
@@ -45,8 +45,8 @@ export default function Note({ note }) {
   ];
 
   return (
-    <div tabIndex={0} role={"button"} className={classes["actual-note"]}>
-      <div className={classes["toggle-container"]}>
+    <div tabIndex={0} role={"button"} className={styles.actualNote}>
+      <div className={styles.toggleContainer}>
         <button
           aria-label={note.pinned ? "Unpin note" : "Pin note"}
           onClick={() => togglePinnedState(note.id, note)}
@@ -54,13 +54,13 @@ export default function Note({ note }) {
           {note.pinned ? <muiIcons.PushPin /> : <muiIcons.PushPinOutlined />}
         </button>
       </div>
-      <section className={classes["note-attributes"]}>
+      <section className={styles.noteAttributes}>
         {note.title ? (
-          <div className={classes["note-title"]}>{note.title}</div>
+          <div className={styles.noteTitle}>{note.title}</div>
         ) : null}
         <List content={note.content} />
       </section>
-      <div className={classes["note-toolbar"]}>
+      <div className={styles.noteToolbar}>
         {toolbarBtns.map((item, i) => (
           <button
             key={`${i}-${item.tooltip}`}

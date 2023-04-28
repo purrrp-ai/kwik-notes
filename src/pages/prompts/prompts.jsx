@@ -1,25 +1,34 @@
 import Drawer from "@components/drawer/drawer";
 import Header from "@components/header/header";
+import AddNote from "@components/add-note/add-note";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
 import * as React from "react";
+import styles from "./prompts.module.css";
 
 export default function Prompts() {
-  const notes_ = (
-    <div className={"empty-dependency"}>
+  const prompts = (
+    <p className={"empty-dependency"}>
       <NotificationsNone
         sx={{ fontSize: "3em", opacity: 0.85, alignSelf: "center" }}
       />
       Notes with upcoming prompts show up here
-    </div>
+    </p>
   );
 
   return (
-    <section className={"container"}>
+    <>
       <Drawer />
-      <section className={"main"}>
+      <main className={"main"}>
         <Header />
-        {notes_}
-      </section>
-    </section>
+        <section
+          className={styles.prompts}
+          aria-label={"Your prompts"}
+          role={"region"}
+        >
+          <AddNote />
+          {prompts}
+        </section>
+      </main>
+    </>
   );
 }

@@ -1,0 +1,9 @@
+.notification {
+  border-radius: 4px;
+  max-width: 512px;
+  padding: 1em 1.5em;
+  position: fixed;
+  bottom: 1.5em;
+  /* left: ; */
+  z-index: 5002;
+}

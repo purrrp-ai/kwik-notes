@@ -1,52 +1,67 @@
 import KwikNotesLogo from "@assets/svgs/logo";
-import {KwikNotesContext} from "@context/kwik-notes_context-provider";
-import * as muiIcons from "@mui/icons-material";
-import * as muiMaterial from "@mui/material";
-// import SignIn from "@pages/sign-in/sign-in";
+import { KwikNotesContext } from "@context/kwik-notes_context-provider";
+import AppsIcon from "@mui/icons-material/Apps";
+import CloseIcon from "@mui/icons-material/Close";
+import CloudDoneIcon from "@mui/icons-material/CloudDone";
+import CloudOffIcon from "@mui/icons-material/CloudOff";
+import GridViewIcon from "@mui/icons-material/GridView";
+import PersonIcon from "@mui/icons-material/Person";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
+// import IconButton from "@mui/material/IconButton";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getAllNotes } from "@services/note";
-import * as React from "react";
-import classes from "./header.module.css";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import styles from "./header.module.css";
+import UserDetails from "./user-details/user-details";
 
 export default function Header() {
-  const { notes, setSearchQueryResults, displayMasonry, setDisplayMasonry } =
-    React.useContext(KwikNotesContext);
+  const { contexts, setContexts } = useContext(KwikNotesContext),
+    searchBoxRef = useRef(null),
+    [headerStates, setHeaderStates] = useState({
+      searchQuery: "",
+      refreshing: false,
+      refreshStatus: null,
+      showAccountDetails: false,
+    });
 
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [refreshing, setRefreshing] = React.useState(false);
-  const [refreshStatus, setRefreshStatus] = React.useState(null);
-
-  React.useEffect(() => {
-    if (refreshStatus !== null) {
+  useEffect(() => {
+    if (headerStates.refreshStatus !== null) {
       const timeoutId = setTimeout(() => {
-        setRefreshStatus(null);
+        setHeaderStates((prev) => ({ ...prev, refreshStatus: null }));
       }, 1000);
 
       return () => {
         clearTimeout(timeoutId);
       };
     }
-  }, [refreshStatus]);
+  }, [headerStates.refreshStatus]);
 
   function refreshNotes() {
-    if (refreshing) return;
+    if (headerStates.refreshing) return;
 
-    setRefreshing(true);
-    setRefreshStatus(null);
+    setHeaderStates((prev) => ({
+      ...prev,
+      refreshing: true,
+      refreshStatus: null,
+    }));
 
     const randomDelay = Math.floor(Math.random() * (3000 - 1000 + 1) + 1000);
 
     setTimeout(() => {
       getAllNotes()
         .then((data) => {
-          setRefreshStatus("success");
-          setNotes(data);
+          setHeaderStates((prev) => ({ ...prev, refreshStatus: "success" }));
         })
         .catch((error) => {
-          setRefreshStatus("error");
-          console.error(error.statusText);
+          setHeaderStates((prev) => ({ ...prev, refreshStatus: "error" }));
+          console.error(error.message);
         })
         .finally(() => {
-          setRefreshing(false);
+          setHeaderStates((prev) => ({ ...prev, refreshing: false }));
         });
     }, randomDelay);
   }
@@ -67,79 +82,114 @@ export default function Header() {
 
   let refreshButtonIcon;
 
-  if (refreshing) {
+  if (headerStates.refreshing) {
     refreshButtonIcon = (
-      <muiMaterial.CircularProgress
-        color={"inherit"}
-        style={{ width: 24, height: 24 }}
-      />
+      <CircularProgress color={"inherit"} style={{ width: 24, height: 24 }} />
     );
   } else {
-    if (refreshStatus === "success") {
-      refreshButtonIcon = <muiIcons.CloudDone color={"success"} />;
-    } else if (refreshStatus === "error") {
-      refreshButtonIcon = <muiIcons.CloudOff color={"error"} />;
+    if (headerStates.refreshStatus === "success") {
+      refreshButtonIcon = <CloudDoneIcon color={"success"} />;
+    } else if (headerStates.refreshStatus === "error") {
+      refreshButtonIcon = <CloudOffIcon color={"error"} />;
     } else {
-      refreshButtonIcon = <muiIcons.Refresh />;
+      refreshButtonIcon = <RefreshIcon />;
     }
   }
 
   return (
-    <header className={classes["app-bar"]}>
-      <a className={classes["logo-link"]} href={"/"} target={"_self"}>
+    <header className={styles.appBar}>
+      <NavLink className={styles.logoLink} to={"/"} target={"_self"}>
         <KwikNotesLogo w={2} />
-        <span>Kwik Notes</span>
-      </a>
-      <div className={classes["form-btns"]}>
-        <form
-          // action={"get"}
-          className={classes["search-form"]}
-          role={"search"}
-          // onSubmit={handleNoteSearch}
+        Kwik Notes
+      </NavLink>
+      <div className={styles.search} role={"search"}>
+        <button
+          type={"button"}
+          className={`${styles.focusSearchBox}`}
+          onClick={() => searchBoxRef.current.focus()}
+          aria-label={"Search notes"}
         >
-          <input
-            className={classes["search-form__input"]}
-            placeholder={"Search"}
-            role={"searchbox"}
-            onChange={({ target }) => {
-              setSearchQuery(target.value);
-              handleNoteSearch(searchQuery);
-            }}
-            value={searchQuery}
-          />
-          <button
-            type={"button"}
-            className={classes["search-form__submit"]}
-            color={"inherit"}
-            onClick={() => setSearchQuery("")}
-            disabled={!searchQuery}
-            style={{
-              pointerEvents: searchQuery ? "auto" : "none",
-            }}
-          >
-            <muiIcons.Close sx={{ opacity: searchQuery ? 1 : 0 }} />
-          </button>
-        </form>
-        <section className={classes["btns"]}>
-          <button onClick={() => refreshNotes()} disabled={refreshing}>
-            {refreshButtonIcon}
-          </button>
-          <button onClick={() => setDisplayMasonry((prev) => !prev)}>
-            {displayMasonry ? <muiIcons.ViewAgenda /> : <muiIcons.GridView />}
-          </button>
-          <button>
-            <muiIcons.Settings />
-          </button>
-        </section>
+          <SearchIcon />
+        </button>
+        <input
+          className={styles.searchBox}
+          autoComplete={"off"}
+          id={"search-box"}
+          placeholder={"Search"}
+          role={"searchbox"}
+          onChange={({ target }) =>
+            setHeaderStates((prev) => ({ ...prev, searchQuery: target.value }))
+          }
+          spellCheck={"false"}
+          value={headerStates.searchQuery}
+          ref={searchBoxRef}
+          type={"text"}
+          aria-label={"Search"}
+        />
+        <button
+          type={"button"}
+          className={`${styles.clearQueryBtn}`}
+          onClick={() =>
+            setHeaderStates((prev) => ({ ...prev, searchQuery: "" }))
+          }
+          aria-label={"Clear search"}
+          disabled={!headerStates.searchQuery}
+        >
+          <CloseIcon sx={{ opacity: headerStates.searchQuery ? 1 : 0 }} />
+        </button>
       </div>
-      <muiMaterial.Divider orientation={"vertical"} />
-      <div>
-        <button>
-          <muiIcons.Apps />
+      <div className={styles.navTools}>
+        <button
+          className={styles.headerBtns}
+          onClick={() => refreshNotes()}
+          disabled={headerStates.refreshing}
+          aria-label={"Refresh notes"}
+        >
+          {refreshButtonIcon}
         </button>
-        <button>
-          <muiIcons.Person />
+        <button
+          className={styles.headerBtns}
+          onClick={() =>
+            setContexts((prev) => ({
+              ...prev,
+              mansoryDisplay: !prev.mansoryDisplay,
+            }))
+          }
+          aria-label={contexts.mansoryDisplay ? "List view" : "Grid view"}
+        >
+          {contexts.mansoryDisplay ? <ViewAgendaIcon /> : <GridViewIcon />}
         </button>
+        <button
+          className={styles.headerBtns}
+          // type={"button"}
+          aria-label={"Settings"}
+        >
+          <SettingsIcon />
+        </button>
+        <span className={styles.divider} />
+        <button
+          className={styles.headerBtns}
+          // type={"button"}
+          aria-label={"More apps"}
+        >
+          <AppsIcon />
+        </button>
+        <>
+          <button
+            className={styles.headerBtns}
+            onClick={() =>
+              setContexts((prev) => ({
+                ...prev,
+                showUserDetails: !prev.showUserDetails,
+              }))
+            }
+            aria-label={"User details"}
+            aria-expanded={contexts.showUserDetails}
+          >
+            <PersonIcon />
+          </button>
+          <UserDetails />
+        </>
       </div>
     </header>
   );

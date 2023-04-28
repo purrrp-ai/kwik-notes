@@ -1,33 +1,32 @@
 import AddNote from "@components/add-note/add-note";
 import Drawer from "@components/drawer/drawer";
 import Header from "@components/header/header";
+import Note from "@components/note/note";
 import { KwikNotesContext } from "@context/kwik-notes_context-provider";
 import LightBulb from "@mui/icons-material/Lightbulb";
 import Masonry from "@mui/lab/Masonry";
-import * as React from "react";
-import Note from "./note/note";
-import classes from "./notes.module.css";
+import React, { useContext } from "react";
+import styles from "./notes.module.css";
 
 export default function Notes() {
-  const { drawerOpen, notes, displayMasonry } =
-    React.useContext(KwikNotesContext);
+  const { contexts } = useContext(KwikNotesContext);
 
   let notes_ = null;
 
-  if (notes) {
-    notes_ = displayMasonry ? (
+  if (contexts.notes) {
+    notes_ = contexts.masonryDisplay ? (
       <Masonry
         columns={{
-          xl: drawerOpen ? 6 : 7,
-          lg: drawerOpen ? 4 : 5,
+          xl: drawerCollapsed ? 7 : 6,
+          lg: drawerCollapsed ? 5 : 4,
           sm: 3,
           xs: 1,
         }}
-        spacing={1.25}
-        sx={{ mt: 8 }}
-        className={classes["notes-wrapper_grid"]}
+        // spacing={1.25}
+        // sx={{ mt: 8 }}
+        className={styles["notes-wrapper_grid"]}
       >
-        {notes
+        {contexts.notes
           .slice()
           .reverse()
           .map((note) => (
@@ -35,8 +34,8 @@ export default function Notes() {
           ))}
       </Masonry>
     ) : (
-      <div className={classes["notes-wrapper_list"]}>
-        {notes
+      <div className={styles["notes-wrapper_list"]}>
+        {contexts.notes
           .slice()
           .reverse()
           .map((note) => (
@@ -46,23 +45,29 @@ export default function Notes() {
     );
   } else {
     notes_ = (
-      <div className={"empty-dependency"}>
+      <p className={"empty-dependency"} aria-live={"polite"}>
         <LightBulb
           sx={{ fontSize: "3em", opacity: 0.85, alignSelf: "center" }}
         />
         Added notes show up here
-      </div>
+      </p>
     );
   }
 
   return (
-    <section className={"container"}>
+    <>
       <Drawer />
-      <section className={"main"}>
+      <main className={"main"}>
         <Header />
-        <AddNote />
-        {notes_}
-      </section>
-    </section>
+        <section
+          className={styles.notes}
+          aria-label={"Your notes"}
+          role={"region"}
+        >
+          <AddNote />
+          {notes_}
+        </section>
+      </main>
+    </>
   );
 }

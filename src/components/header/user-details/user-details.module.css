@@ -1,0 +1,110 @@
+.details-wrapper {
+  position: absolute;
+  right: 8px;
+  top: 56px;
+  /* z-index: 1000; */
+  background-color: var(--deep-blue);
+  color: var(--kinda-teal);
+  border-radius: 16px;
+  padding: 12px;
+  font-size: 14px;
+  outline: 1px solid transparent;
+  overflow: hidden;
+}
+
+.details-wrapper:focus {
+  outline-color: currentColor;
+}
+
+.hidden-exit {
+  position: absolute;
+  padding: 8px 0;
+  right: 12px;
+  top: 12px;
+  left: 12px;
+  transform: translateY(-150%);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  outline: 1px solid transparent;
+  background-color: #0a4d68;
+  color: #00ffca;
+  font-weight: 900;
+}
+
+.hidden-exit:focus {
+  border-color: #00ffca;
+  background-color: hsl(197, 82%, 26%);
+  transform: translateY(0);
+}
+
+.details-wrapper section {
+  background-color: hsl(205, 20%, 24%);
+  border-radius: 12px 12px 4px 4px;
+  padding: 8px;
+}
+
+.sign-btn {
+  border: 2px solid transparent;
+  border-radius: 4px 4px 12px 12px;
+  outline: 1px solid transparent;
+  margin: 6px 0;
+  background-color: hsl(205, 20%, 24%);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75em;
+  width: 100%;
+  user-select: none;
+  font-weight: bolder;
+}
+
+.sign-btn:hover {
+  background-color: hsl(205, 20%, 33%);
+}
+
+.sign-btn:focus {
+  background-color: hsl(205, 20%, 28%);
+  border-color: hsl(205, 20%, 45%);
+}
+
+.user-details {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  user-select: none;
+}
+
+.bottom {
+  font-size: 0.9em;
+  font-weight: bolder;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75em;
+  margin: 1.25em 0 0.75em;
+}
+
+.bottom svg {
+  font-size: 0.6em !important;
+}
+
+.bottom a {
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  user-select: none;
+}
+
+.bottom a:hover {
+  background-color: hsl(205, 20%, 24%);
+}
+
+.bottom a:focus {
+  background-color: hsl(205, 20%, 23%);
+  border-color: hsl(205, 20%, 45%);
+}

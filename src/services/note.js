@@ -9,7 +9,7 @@ export const getAllNotes = async () => {
     const response = await api.get("/");
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };
 
@@ -18,7 +18,7 @@ export const getNoteById = async (noteId) => {
     const response = await api.get(`/${noteId}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };
 
@@ -27,7 +27,7 @@ export const createNote = async (noteData) => {
     const response = await api.post("/", noteData);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };
 
@@ -36,7 +36,7 @@ export const updateNote = async (noteId, noteData) => {
     const response = await api.put(`/${noteId}`, noteData);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };
 
@@ -45,6 +45,6 @@ export const deleteNote = async (noteId) => {
     const response = await api.delete(`/${noteId}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 };

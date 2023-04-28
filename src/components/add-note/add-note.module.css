@@ -1,18 +1,21 @@
 .create-wrapper {
-  border: 1px solid hsla(42, 85%, 70%, 0.3);
-  box-shadow: hsla(42, 85%, 70%, 0.3) 1.95px 1.95px 2.6px;
-  border-radius: 4px;
-  background-color: var(--deep-blue);
+  box-shadow: hsl(205, 20%, 18%) 0px 2px 4px,
+    hsl(205, 20%, 16%) 0px 7px 13px -3px, hsl(205, 20%, 14%) 0px -3px 0px inset;
+  border-radius: 8px;
+  outline: 1px solid hsla(171, 45%, 64%, 0.2);
+  background-color: hsl(205, 20%, 20%);
   color: var(--kinda-teal);
   width: 50%;
-  height: auto;
   max-width: 37.5em;
   position: sticky;
-  z-index: 7;
-  top: 3em;
+  top: 1.5em;
   left: 0;
   right: 0;
-  margin: 0 auto 1.5em;
+  margin: 0 auto;
+}
+
+.create-wrapper:focus {
+  outline-color: hsla(171, 45%, 64%, 0.8);
 }
 
 .create-wrapper-flex {
@@ -28,57 +31,6 @@
   width: auto;
   height: auto;
   position: relative;
-}
-
-/* .title-field-wrapper {} */
-
-.title-field-wrapper {
-  border: 1px solid transparent;
-  font-weight: 700;
-}
-
-.title-field-placeholder {
-  position: absolute;
-  width: 100%;
-  min-height: 48px;
-  pointer-events: none;
-  user-select: none;
-  line-height: 1.5rem;
-  padding: 0.625em 1em;
-  padding-bottom: 0.75em;
-  opacity: 0.85;
-}
-
-.title-field {
-  outline: 1px solid transparent;
-  min-height: 48px;
-  padding: 0.625em 1em;
-  padding-right: 3em;
-  line-height: 1.5em;
-  white-space: pre-wrap;
-}
-
-.content-field-wrapper {
-  font-size: 0.9em;
-  line-height: 1.25em;
-  font-family: "Gloria Hallelujah", cursive;
-  border: 1px solid transparent;
-}
-
-.content-field-placeholder {
-  position: absolute;
-  width: 100%;
-  min-height: 48px;
-  pointer-events: none;
-  user-select: none;
-  padding: 0.833em 1.111em;
-  opacity: 0.85;
-}
-
-.content-field {
-  outline: 1px solid transparent;
-  min-height: 48px;
-  padding: 0.833em 1.111em;
 }
 
 .pin-checkbox {
@@ -104,14 +56,14 @@
 }
 
 .pin-checkbox svg {
-  opacity: 0.8;
+  opacity: 0.3;
 }
 
-.pin-checkbox:is(:focus, :hover) {
+.pin-checkbox:is(:focus-within, :hover) {
   background-color: hsla(171, 45%, 64%, 0.15);
 }
 
-.pin-checkbox:is(:focus, :hover) svg {
+.pin-checkbox:is(:focus-within, :hover) svg {
   opacity: 1;
 }
 
@@ -119,8 +71,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0.25em 0;
-  padding: 0 0.5em;
+  border-bottom: 1px solid transparent;
+  padding: 0.25em 0.5em 0.4em;
 }
 
 .more-options > button {
