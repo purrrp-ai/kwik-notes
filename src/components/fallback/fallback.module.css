@@ -1,0 +1,19 @@
+.fallback {
+  width: 100%;
+  height: 100%;
+  background-color: var(--kinda-teal);
+  display: grid;
+  place-items: center;
+}
+
+.fallback h1 {
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: "1.25em";
+}
+
+@media (prefers-color-scheme: dark) {
+  .fallback {
+    background-color: var(--deep-blue);
+    color: var(--kinda-teal);
+  }
+}

@@ -1,0 +1,62 @@
+.top-section a {
+  margin: 0.8em auto;
+}
+
+.top-section a:not(:focus):hover {
+  background-color: hsla(205, 20%, 19%, 0.1);
+}
+
+.top-section a::before {
+  background-color: var(--deep-blue);
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 460px;
+  display: grid;
+  gap: 2em;
+  place-items: center;
+  background-color: #fff;
+  color: var(--deep-blue);
+  border-radius: 12px;
+  box-shadow: hsl(0, 0%, 60%) 0px 2px 4px, hsl(0, 0%, 70%) 0px 7px 13px -3px,
+    hsl(0, 0%, 80%) 0px -3px 0px inset;
+  padding: 12px 24px;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-wrapper {
+    background-color: var(--kinda-teal);
+    box-shadow: hsl(171, 45%, 61%) 0px 2px 4px,
+      hsl(171, 45%, 58%) 0px 7px 13px -3px,
+      hsl(171, 45%, 55%) 0px -3px 0px inset;
+  }
+}
+
+.hide-wrapper {
+  transform: translateY(175%);
+}
+
+.form-wrapper h1 {
+  all: revert;
+  margin: 0;
+  user-select: none;
+}
+
+.sign-up-btn {
+  border: 1px solid hsla(0, 0%, 0%, 0.5);
+  color: hsla(0, 0%, 0%, 0.6);
+  border-radius: 4px;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.sign-up-btn:is(:hover, :focus) {
+  border-color: var(--deep-blue);
+  color: var(--deep-blue);
+  background-color: hsla(0, 0%, 0%, 0.01);
+  text-shadow: 0 0 0 var(--deep-blue), 0 0 1px var(--deep-blue);
+}

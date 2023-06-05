@@ -1,48 +1,49 @@
-import { KwikNotesContext } from "@context/kwik-notes_context-provider";
-import AddAlertIcon from "@mui/icons-material/AddAlert";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import BrushIcon from "@mui/icons-material/Brush";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
-import ImageIcon from "@mui/icons-material/Image";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import PushPinIcon from "@mui/icons-material/PushPin";
-import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
-import RedoIcon from "@mui/icons-material/Redo";
-import UndoIcon from "@mui/icons-material/Undo";
-import Backdrop from "@mui/material/Backdrop";
-import TextField from "@mui/material/TextField";
+import {
+  AddAlert,
+  Archive,
+  Brush,
+  CheckBox,
+  ColorLens,
+  Image,
+  MoreVert,
+  PersonAddAlt1,
+  PushPin,
+  PushPinOutlined,
+  Redo,
+  Undo,
+} from "@mui/icons-material";
+import { Backdrop, CircularProgress, TextField } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { createNote } from "@services/note";
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { create_note } from "../../services/auth";
+import { Color, Context } from "../context-provider";
 import styles from "./add-note.module.css";
 
 const toolbarBtns = [
   {
-    icon: <AddAlertIcon />,
+    icon: <AddAlert />,
     clickFunc: () => null,
     tooltip: "Prompt me",
   },
   {
-    icon: <PersonAddAlt1Icon />,
+    icon: <PersonAddAlt1 />,
     clickFunc: () => null,
     tooltip: "Partner",
   },
   {
-    icon: <ColorLensIcon />,
+    icon: <ColorLens />,
     clickFunc: () => null,
     tooltip: "Environment alternatives",
   },
   {
-    icon: <ImageIcon />,
+    icon: <Image />,
     clickFunc: () => null,
     tooltip: "Insert picture",
   },
-  { icon: <ArchiveIcon />, clickFunc: () => null, tooltip: "Stash" },
-  { icon: <MoreVertIcon />, clickFunc: () => null, tooltip: "Extra" },
-  { icon: <UndoIcon />, clickFunc: () => null, tooltip: "Undo" },
-  { icon: <RedoIcon />, clickFunc: () => null, tooltip: "Redo" },
+  { icon: <Archive />, clickFunc: () => null, tooltip: "Stash" },
+  { icon: <MoreVert />, clickFunc: () => null, tooltip: "Extra" },
+  { icon: <Undo />, clickFunc: () => null, tooltip: "Undo" },
+  { icon: <Redo />, clickFunc: () => null, tooltip: "Redo" },
 ];
 
 const useStyles = makeStyles({
@@ -77,58 +78,87 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddNote() {
-  const classes = useStyles();
-  const { setNotes } = useContext(KwikNotesContext);
-
-  const [showFormProps, setShowFormProps] = useState(false);
-  const [noteTitle, setNoteTitle] = useState("");
-  const [noteContent, setNoteContent] = useState("");
-  const [notePinned, setNotePinned] = useState(false);
-
-  const contentFieldRef = useRef(null);
+const AddNote = () => {
+  const classes = useStyles(),
+    { user, setUser, setMessage, setShowSignIn } = useContext(Context),
+    [states, setStates] = useState({
+      expandForm: false,
+      title: "",
+      content: "",
+      pinned: false,
+      addingNote: false,
+    }),
+    contentFieldRef = useRef(null);
 
   function handleNoteSubmition(event) {
     event.preventDefault();
 
-    if (!noteTitle && !noteContent) {
-      return setShowFormProps(false);
-    }
+    if (user) {
+      setStates((prev) => ({ ...prev, addingNote: true }));
+      if (!states.title && !states.content)
+        return setStates((prev) => ({
+          ...prev,
+          expandForm: false,
+          addingNote: false,
+        }));
 
-    const newNoteProps = {
-      title: noteTitle,
-      content: noteContent,
-      pinned: notePinned,
-    };
-
-    createNote(newNoteProps)
-      .then((data) => {
-        setNotes((prev) => [...prev, data]);
+      create_note({
+        title: states.title,
+        content: states.content,
+        pinned: states.pinned,
       })
-      .catch((error) => console.error(error.message))
-      .finally(() => {
-        setNoteTitle("");
-        setNoteContent("");
-        setNotePinned(false);
-        setShowFormProps(false);
-      });
+        .then(({ note }) => {
+          setUser((prev) => ({
+            ...prev,
+            notes: prev.notes.concat(note),
+          }));
+          setMessage({ color: Color.success, info: "Note added." });
+          setStates((prev) => ({
+            ...prev,
+            expandForm: false,
+            title: "",
+            content: "",
+            pinned: false,
+          }));
+        })
+        .catch(({ message }) => {
+          if (message === "token expired") {
+            window.localStorage.removeItem("token");
+            setUser(null);
+            setShowSignIn(true);
+            setTimeout(
+              () =>
+                setMessage({
+                  color: Color.warn,
+                  info: "Session expired. Please Sign in again.",
+                }),
+              1000
+            );
+          } else setMessage({ color: Color.error, info: message });
+        })
+        .finally(() => setStates((prev) => ({ ...prev, addingNote: false })));
+    } else {
+      setStates((prev) => ({
+        ...prev,
+        expandForm: !states.title && !states.content ? false : prev.expandForm,
+      }));
+      setShowSignIn(true);
+      setMessage({ color: Color.warn, info: "Sign in to add notes." });
+    }
   }
 
   function handleBackdropClick(event) {
     event.preventDefault();
-    if (noteTitle || noteContent) {
-      handleNoteSubmition(event);
-    } else {
-      setShowFormProps(false);
-    }
+    if (states.title || states.content) handleNoteSubmition(event);
+    else setStates((prev) => ({ ...prev, expandForm: false }));
   }
 
   return (
     <>
       <Backdrop
-        open={showFormProps}
+        open={states.expandForm}
         onClick={(event) => handleBackdropClick(event)}
-        sx={{ backgroundColor: "hsla(0, 0%, 0%, 0.05)" }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
       />
       <form
         method={"post"}
@@ -137,28 +167,30 @@ export default function AddNote() {
         onKeyDown={(event) => {
           if (event.key === "Enter") {
             event.preventDefault();
-            setShowFormProps(true);
+            setStates((prev) => ({ ...prev, expandForm: true }));
             contentFieldRef.current.focus();
           }
         }}
         onSubmit={handleNoteSubmition}
       >
         <div className={styles.noteProps}>
-          {showFormProps && (
+          {states.expandForm && (
             <>
               <div className={styles.pinCheckbox}>
                 <input
                   type={"checkbox"}
-                  checked={notePinned}
-                  onChange={(event) => setNotePinned(event.target.checked)}
-                  value={notePinned ? "unpinned" : "pinned"}
-                  aria-label={notePinned ? "Unpin note" : "Pin note"}
-                  aria-pressed={notePinned}
+                  checked={states.pinned}
+                  onChange={({ target }) =>
+                    setStates((prev) => ({ ...prev, pinned: target.checked }))
+                  }
+                  value={states.pinned ? "unpinned" : "pinned"}
+                  aria-label={states.pinned ? "Unpin note" : "Pin note"}
+                  aria-pressed={states.pinned}
                 />
-                {notePinned ? (
-                  <PushPinIcon fontSize={"1em"} />
+                {states.pinned ? (
+                  <PushPin fontSize={"1em"} />
                 ) : (
-                  <PushPinOutlinedIcon fontSize={"1em"} />
+                  <PushPinOutlined fontSize={"1em"} />
                 )}
               </div>
               <TextField
@@ -166,8 +198,11 @@ export default function AddNote() {
                 maxRows={16}
                 className={classes.titleField}
                 placeholder={"Title"}
-                onChange={({ target }) => setNoteTitle(target.value)}
+                onChange={({ target }) =>
+                  setStates((prev) => ({ ...prev, title: target.value }))
+                }
                 fullWidth
+                value={states.title}
                 sx={{ display: "block" }}
               />
             </>
@@ -177,19 +212,25 @@ export default function AddNote() {
             maxRows={24}
             className={classes.contentField}
             placeholder={"Take a note..."}
-            onChange={({ target }) => setNoteContent(target.value)}
+            onChange={({ target }) =>
+              setStates((prev) => ({ ...prev, content: target.value }))
+            }
             fullWidth
+            value={states.content}
             sx={{ display: "block" }}
-            inputProps={{ onFocus: () => setShowFormProps(true) }}
+            inputProps={{
+              onFocus: () =>
+                setStates((prev) => ({ ...prev, expandForm: true })),
+            }}
             ref={contentFieldRef}
           />
         </div>
-        {!showFormProps && (
+        {!states.expandForm && (
           <div className={`${styles.preModes}`}>
             {[
-              { icon: <CheckBoxIcon />, label: "New list" },
-              { icon: <BrushIcon />, label: "New note with drawing" },
-              { icon: <ImageIcon />, label: "New note with image" },
+              { icon: <CheckBox />, label: "New list" },
+              { icon: <Brush />, label: "New note with drawing" },
+              { icon: <Image />, label: "New note with image" },
             ].map((item, i) => (
               <button
                 aria-label={item.label}
@@ -202,7 +243,7 @@ export default function AddNote() {
             ))}
           </div>
         )}
-        {showFormProps && (
+        {states.expandForm && (
           <div className={styles.moreOptions}>
             <div className={styles.toolbarBtns}>
               {toolbarBtns.map((item, i) => (
@@ -216,10 +257,25 @@ export default function AddNote() {
                 </button>
               ))}
             </div>
-            <button type={"submit"}>Close</button>
+            {states.addingNote ? (
+              <CircularProgress
+                sx={{
+                  width: "20px !important",
+                  height: "20px !important",
+                  margin: "8px 24px",
+                }}
+                color={"inherit"}
+              />
+            ) : (
+              <button type={"submit"} disabled={states.addingNote}>
+                Close
+              </button>
+            )}
           </div>
         )}
       </form>
     </>
   );
-}
+};
+
+export default AddNote;

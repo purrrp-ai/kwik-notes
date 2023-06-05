@@ -1,8 +1,7 @@
-import Drawer from "@components/drawer/drawer";
-import Header from "@components/header/header";
-import AddNote from "@components/add-note/add-note";
 import NotificationsNone from "@mui/icons-material/NotificationsNone";
-import * as React from "react";
+import AddNote from "../../components/add-note/add-note";
+import Drawer from "../../components/drawer/drawer";
+import Header from "../../components/header/header";
 import styles from "./prompts.module.css";
 
 export default function Prompts() {

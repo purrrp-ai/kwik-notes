@@ -1,23 +1,23 @@
 .drawer {
-  padding: 0.6em 0;
-  width: 17.5rem;
+  padding: 0.6em 0.8em 0.6em 0;
   height: 100%;
+  min-width: 280px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  margin-right: 0.8em;
   gap: 0.2em;
-  transition: width 1s linear;
+  background-color: #fff;
 }
 
-.drawer-collapsed {
-  width: auto; /* 5em */
+.nav-open {
+  padding-left: 0.8em;
+  min-width: auto;
 }
 
 .nav-links-btns {
   display: flex;
   flex-flow: column nowrap;
-  gap: 0.25em;
+  gap: 0.125em;
   flex: 1 1 100%;
 }
 
@@ -36,18 +36,13 @@
   align-items: center;
   height: 48px;
   min-width: 48px;
-  padding: 0 0 0 0.9em;
+  padding: 0 0 0 2em;
   position: relative;
   overflow: hidden;
 }
 
 .collapsible-link {
   text-decoration: none;
-}
-
-:is(.collapsible-btn, .collapsible-link) svg {
-  box-sizing: content-box;
-  padding: 0 0.5em;
 }
 
 :is(.collapsible-btn, .collapsible-link) span {
@@ -57,15 +52,14 @@
   font-weight: bolder;
 }
 
-.drawer.drawer-collapsed :is(.collapsible-btn, .collapsible-link) span {
+.drawer.nav-open :is(.collapsible-btn, .collapsible-link) span {
   margin-left: 0;
 }
-.drawer-collapsed :is(.collapsible-btn, .collapsible-link) {
+
+.nav-open :is(.collapsible-btn, .collapsible-link) {
   justify-content: center;
-  aspect-ratio: 1 / 1;
   border-radius: 50%;
   padding-left: 0;
-  margin-left: 0.6em;
 }
 
 :is(.collapsible-btn, .collapsible-link):not(:focus):hover {
@@ -87,8 +81,7 @@
   left: 50%;
   translate: -50% -50%;
   border-radius: 50%;
-  transform: scale(0.8);
-  z-index: -1;
+  transform: scale(0.85);
   width: 100%;
   aspect-ratio: 1 / 1;
   background-color: var(--kinda-teal);
@@ -97,93 +90,84 @@
 
 @keyframes pulsate {
   from {
-    transform: scale(0.8);
+    transform: scale(0.85);
   }
   to {
     transform: scale(0.95);
   }
 }
 
-:is(.collapsible-btn, .collapsible-link):focus::before {
-  opacity: 0.1;
+:is(.collapsible-btn, .collapsible-link):not(:hover):focus::before {
+  opacity: 0.125;
   animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
 }
 
 .divider {
   background-color: hsla(0, 0%, 0%, 0.4);
-  width: 90%;
+  width: 125%;
   height: 1px;
   margin-top: 3px;
   margin-bottom: 3px;
-  margin-left: calc(5% + 0.375em);
+  margin-left: -12.5%;
 }
 
-.collapsible-link.attribution {
+.attribution {
+  text-decoration: none;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   font-family: "Gloria Hallelujah", cursive;
-  color: #fff;
-  background-color: #0d1117;
-  border: 2px solid transparent;
-  border-radius: 6em;
+  color: #0d1117;
+  border: 1px solid currentColor;
+  border-radius: 2em;
   outline: 1px solid transparent;
-  position: relative;
-  z-index: 5;
-  /* padding: 0; */
-  padding: 0.2em 0.3em;
+  padding: 0.25em;
   flex: 0 0 auto;
-  width: 50%;
   margin: 0 auto;
 }
 
-.drawer.drawer-collapsed .collapsible-link.collapsible-link.attribution {
-  width: auto;
-  margin: initial;
-  margin-left: 0.6em;
+.drawer.nav-open .attribution {
+  justify-content: center;
 }
 
-.collapsible-link.attribution::before {
-  content: "";
-  position: absolute;
-  width: 80%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background-color: #fff;
-  top: 50%;
-  left: 50%;
-  z-index: -1;
-  translate: -50% -50%;
-  transform: scale(0.85);
-  opacity: 0;
+.attribution:is(:focus, :hover) {
+  background-color: #0d1117;
+  color: #fff;
 }
 
-@keyframes attribution-focus-pulsate {
-  from {
-    transform: scale(0.85);
-  }
-  to {
-    transform: scale(1.15);
-  }
+.attribution:focus {
+  text-decoration: underline;
 }
 
-.collapsible-link.attribution:focus::before {
-  opacity: 0.2;
-  animation: attribution-focus-pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1)
-    infinite alternate both;
-}
-
-.collapsible-link.attribution:not(:focus):hover {
-  background-color: #fff;
-  color: #0d1117;
-  border-color: #238636;
-}
-
-.collapsible-link.attribution svg {
+.attribution svg {
   font-size: 2.25em;
-  padding: 0;
 }
 
-.collapsible-link.attribution span {
-  font-size: 0.75em;
+.attribution span {
+  font-size: 0.8em;
   margin-left: 0.625em;
+  margin-right: 0.375em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .drawer {
+    background-color: var(--kinda-teal);
+    color: var(--deep-blue);
+  }
+
+  :is(.collapsible-btn, .collapsible-link):not(:focus):hover {
+    background-color: hsla(205, 20%, 19%, 0.075);
+  }
+
+  .collapsible-link.active {
+    background-color: hsla(205, 20%, 19%, 0.25);
+  }
+
+  .collapsible-link.active:hover {
+    background-color: hsla(205, 20%, 19%, 0.25);
+  }
+
+  :is(.collapsible-btn, .collapsible-link)::before {
+    background-color: var(--deep-blue);
+  }
 }

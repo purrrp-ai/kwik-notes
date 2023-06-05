@@ -1,0 +1,25 @@
+.not-found {
+  text-align: center;
+}
+
+:has(.not-found) {
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  :has(.not-found) {
+    background-color: var(--deep-blue);
+  }
+}
+
+.not-found p i {
+  all: unset;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+.not-found p {
+  user-select: none;
+}

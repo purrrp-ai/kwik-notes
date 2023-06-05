@@ -1,12 +1,16 @@
-import axios from "axios";
+export async function sign_up(details) {
+  const response = await fetch("/api/sign-up", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(details),
+  });
 
-const API_BASE_URL = "/gwy/users";
+  if (!response.ok) {
+    const { message } = await response.json();
+    throw new Error(message);
+  }
 
-const gwy = axios.create({ baseURL: API_BASE_URL });
-
-async function signUp(details) {
-  const { data } = await gwy.post("/", details);
-  return data;
+  return response.json();
 }
-
-export default signUp;

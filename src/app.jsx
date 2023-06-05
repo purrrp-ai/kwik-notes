@@ -1,25 +1,41 @@
-import { KwikNotesContextProvider } from "@context/kwik-notes_context-provider";
-import * as RRD from "react-router-dom";
-import Bin from "./pages/bin/bin";
-import Notes from "./pages/notes/notes";
-import Prompts from "./pages/prompts/prompts";
-import SignIn from "./pages/sign-in/sign-in";
-import SignUp from "./pages/sign-up/sign-up";
-import Stash from "./pages/stash/stash";
-import Notification from "./components/notification/notification";
+import { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import { ContextProvider } from "./components/context-provider";
+import Fallback from "./components/fallback/fallback";
+const Notification = lazy(() =>
+  import("./components/notification/notification")
+);
+const Bin = lazy(() => import("./pages/bin/bin"));
+const Notes = lazy(() => import("./pages/notes/notes"));
+const Prompts = lazy(() => import("./pages/prompts/prompts"));
+const Stash = lazy(() => import("./pages/stash/stash"));
+const SignUpModal = lazy(() =>
+  import("./components/sign-up-modal/sign-up-modal")
+);
+const SignInModal = lazy(() =>
+  import("./components/sign-in-modal/sign-in-modal")
+);
+const UserDetails = lazy(() =>
+  import("./components/user-details/user-details")
+);
+const NotFound = lazy(() => import("./pages/not-found/not-found"));
 
 export default function App() {
   return (
-    <KwikNotesContextProvider>
-      <RRD.Routes>
-        <RRD.Route exact path={"/"} element={<Notes />} />
-        <RRD.Route path={"/prompts"} element={<Prompts />} />
-        <RRD.Route path={"/stash"} element={<Stash />} />
-        <RRD.Route path={"/bin"} element={<Bin />} />
-        <RRD.Route path={"/sign-up"} element={<SignUp />} />
-        <RRD.Route path={"/sign-in"} element={<SignIn />} />
-      </RRD.Routes>
+    <ContextProvider>
+      <Suspense fallback={<Fallback />}>
+        <Routes>
+          <Route exact path={"/"} Component={Notes} />
+          <Route path={"/prompts"} Component={Prompts} />
+          <Route path={"/stash"} Component={Stash} />
+          <Route path={"/bin"} Component={Bin} />
+          <Route path={"*"} Component={NotFound} />
+        </Routes>
+      </Suspense>
       <Notification />
-    </KwikNotesContextProvider>
+      <SignInModal />
+      <SignUpModal />
+      <UserDetails />
+    </ContextProvider>
   );
 }

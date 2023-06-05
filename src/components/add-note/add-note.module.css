@@ -193,6 +193,43 @@
   animation: ripple 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 alternate both;
 }
 
-.hide-whatever-the-fuck-has-this-class-name {
-  display: none !important;
+@media (prefers-color-scheme: dark) {
+  .create-wrapper {
+    background-color: var(--kinda-teal);
+    color: var(--deep-blue);
+    box-shadow: hsl(171, 45%, 62%) 0px 2px 4px,
+      hsl(171, 45%, 60%) 0px 7px 13px -3px,
+      hsl(171, 45%, 58%) 0px -3px 0px inset;
+  }
+
+  .pin-checkbox:is(:focus-within, :hover) {
+    background-color: hsl(205, 20%, 20%, 0.15);
+  }
+
+  .create-wrapper:focus {
+    outline-color: hsla(205, 20%, 18%, 0.4);
+  }
+
+  .create-wrapper:has(:focus) {
+    outline-color: hsla(205, 20%, 18%, 0.4);
+  }
+
+  .more-options > button::before {
+    background-color: var(--deep-blue);
+  }
+
+  .pre-modes button::before,
+  .pre-modes button::after,
+  .toggle-wrapper button::before,
+  .toggle-wrapper button::after,
+  .toolbar-btns button::before,
+  .toolbar-btns button::after {
+    background-color: var(--deep-blue);
+  }
+
+  .pre-modes button:hover,
+  .toolbar-btns button:hover,
+  .toggle-wrapper button:hover {
+    background-color: hsla(205, 20%, 14%, 0.1);
+  }
 }

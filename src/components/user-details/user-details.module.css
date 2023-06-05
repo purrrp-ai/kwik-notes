@@ -1,0 +1,143 @@
+.details-wrapper {
+  position: absolute;
+  right: 8px;
+  top: 56px;
+  background-color: var(--notepad);
+  color: var(--kinda-teal);
+  border-radius: 16px;
+  padding: 12px;
+  font-size: 14px;
+  outline: 1px solid transparent;
+  overflow: hidden;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hide-wrapper {
+  transform: translateX(calc(100% + 14px));
+}
+
+.hidden-exit {
+  position: absolute;
+  padding: 8px;
+  background-color: var(--kinda-teal);
+  left: 50%;
+  color: var(--deep-blue);
+  top: 20px;
+  transform: translate(-50%, -150%);
+  border: none;
+  border-radius: 50%;
+  outline: 1px solid transparent;
+  display: grid;
+  place-items: center;
+}
+
+.hidden-exit:not(:hover):focus {
+  transform: translate(-50%, 0);
+}
+
+.details-wrapper section {
+  background-color: var(--deep-blue);
+  border-radius: 12px 12px 4px 4px;
+  padding: 8px;
+}
+
+.sign-btn {
+  border: none;
+  border-radius: 4px 4px 12px 12px;
+  outline: 1px solid transparent;
+  margin: 6px 0;
+  background-color: hsl(205, 20%, 24%);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75em;
+  width: 100%;
+  user-select: none;
+  font-weight: bolder;
+}
+
+.sign-btn:not(:focus):hover {
+  background-color: var(--deep-blue);
+}
+
+.sign-btn:not(:hover):focus {
+  outline-color: currentColor;
+}
+
+.user-details {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  user-select: none;
+}
+
+.user-details > div {
+  width: 100%;
+}
+
+.greetings {
+  text-align: center;
+  font-size: 1.25em;
+}
+.greetings span {
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+.edit-details {
+  border: none;
+  outline: 1px solid transparent;
+  background-color: var(--kinda-teal);
+  padding: 8px 0;
+  color: var(--deep-blue);
+  font-weight: bolder;
+  width: 100%;
+  border-radius: 4px;
+  margin: 1px 2px 4px;
+  position: relative;
+}
+
+.edit-details:is(:hover, :focus) {
+  box-shadow: 0 1px 0 0 hsl(171, 45%, 40%), 0 2px 0 0 hsl(171, 45%, 40%);
+  transition: none;
+}
+
+.edit-details:active {
+  box-shadow: 0 0 0 0;
+  top: 1px;
+}
+
+.bottom {
+  color: var(--deep-blue);
+  font-size: 0.9em;
+  font-weight: bolder;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75em;
+  margin: 1.25em 0 0.75em;
+}
+
+.bottom svg {
+  font-size: 0.6em !important;
+}
+
+.bottom a {
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: none;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  user-select: none;
+}
+
+.bottom a:not(:focus):hover {
+  background-color: hsla(0, 0%, 0%, 0.1);
+}
+
+.bottom a:not(:hover):focus {
+  outline-color: currentColor;
+}

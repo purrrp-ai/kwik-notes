@@ -1,107 +1,118 @@
-import KwikNotesLogo from "@assets/svgs/logo";
-import { KwikNotesContext } from "@context/kwik-notes_context-provider";
-import AppsIcon from "@mui/icons-material/Apps";
-import CloseIcon from "@mui/icons-material/Close";
-import CloudDoneIcon from "@mui/icons-material/CloudDone";
-import CloudOffIcon from "@mui/icons-material/CloudOff";
-import GridViewIcon from "@mui/icons-material/GridView";
-import PersonIcon from "@mui/icons-material/Person";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import SearchIcon from "@mui/icons-material/Search";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
-// import IconButton from "@mui/material/IconButton";
-import CircularProgress from "@mui/material/CircularProgress";
-import { getAllNotes } from "@services/note";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import {
+  Apps,
+  Close,
+  CloudDoneOutlined,
+  CloudOffOutlined,
+  GridView as GridViewIcon,
+  Person,
+  Refresh,
+  Search,
+  Settings,
+  ViewAgenda,
+} from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
+import { useContext, useEffect, useRef, useState } from "react";
+import LogoLink from "../../assets/logo/logo-link";
+import { get_notes } from "../../services/auth";
+import { Color, Context } from "../context-provider";
 import styles from "./header.module.css";
-import UserDetails from "./user-details/user-details";
 
 export default function Header() {
-  const { contexts, setContexts } = useContext(KwikNotesContext),
+  const {
+      user,
+      setUser,
+      gridView,
+      setGridView,
+      showAccountState,
+      setShowAccountState,
+      setShowSignIn,
+      setMessage,
+    } = useContext(Context),
     searchBoxRef = useRef(null),
-    [headerStates, setHeaderStates] = useState({
-      searchQuery: "",
+    [states, setStates] = useState({
+      query: "",
       refreshing: false,
       refreshStatus: null,
       showAccountDetails: false,
     });
 
   useEffect(() => {
-    if (headerStates.refreshStatus !== null) {
+    if (states.refreshStatus !== null) {
       const timeoutId = setTimeout(() => {
-        setHeaderStates((prev) => ({ ...prev, refreshStatus: null }));
+        setStates((prev) => ({ ...prev, refreshStatus: null }));
       }, 1000);
 
-      return () => {
-        clearTimeout(timeoutId);
-      };
+      return () => clearTimeout(timeoutId);
     }
-  }, [headerStates.refreshStatus]);
+  }, [states.refreshStatus]);
 
   function refreshNotes() {
-    if (headerStates.refreshing) return;
+    if (user) {
+      if (states.refreshing) return;
 
-    setHeaderStates((prev) => ({
-      ...prev,
-      refreshing: true,
-      refreshStatus: null,
-    }));
+      setStates((prev) => ({
+        ...prev,
+        refreshing: true,
+        refreshStatus: null,
+      }));
 
-    const randomDelay = Math.floor(Math.random() * (3000 - 1000 + 1) + 1000);
+      const randomDelay = Math.floor(Math.random() * (3000 - 1000 + 1) + 1000);
 
-    setTimeout(() => {
-      getAllNotes()
-        .then((data) => {
-          setHeaderStates((prev) => ({ ...prev, refreshStatus: "success" }));
-        })
-        .catch((error) => {
-          setHeaderStates((prev) => ({ ...prev, refreshStatus: "error" }));
-          console.error(error.message);
-        })
-        .finally(() => {
-          setHeaderStates((prev) => ({ ...prev, refreshing: false }));
-        });
-    }, randomDelay);
-  }
-
-  function handleNoteSearch(query) {
-    if (!query) return;
-
-    const searchResults = notes.filter(
-      (note) =>
-        (note.title &&
-          note.title.toLowerCase().includes(query.toLowerCase())) ||
-        (note.content &&
-          note.content.toLowerCase().includes(query.toLowerCase()))
-    );
-
-    setSearchQueryResults([...searchResults]);
+      setTimeout(() => {
+        get_notes()
+          .then(({ notes }) => {
+            setUser((prev) => ({ ...prev, notes }));
+            setStates((prev) => ({ ...prev, refreshStatus: "success" }));
+          })
+          .catch(({ message }) => {
+            setStates((prev) => ({ ...prev, refreshStatus: "error" }));
+            if (message == "token expired") {
+              window.localStorage.removeItem("token");
+              setUser(null);
+              setShowSignIn(true);
+              setTimeout(
+                () =>
+                  setMessage({
+                    color: Color.warn,
+                    info: "Session expired. Please Sign in again.",
+                  }),
+                1000
+              );
+            } else {
+              setMessage({ color: Color.error, info: message });
+            }
+          })
+          .finally(() => {
+            setStates((prev) => ({ ...prev, refreshing: false }));
+          });
+      }, randomDelay);
+    } else {
+      setMessage({
+        color: Color.warn,
+        info: "Notes refreshing is allowed to signed in users only.",
+      });
+    }
   }
 
   let refreshButtonIcon;
 
-  if (headerStates.refreshing) {
+  if (states.refreshing) {
     refreshButtonIcon = (
       <CircularProgress color={"inherit"} style={{ width: 24, height: 24 }} />
     );
   } else {
-    if (headerStates.refreshStatus === "success") {
-      refreshButtonIcon = <CloudDoneIcon color={"success"} />;
-    } else if (headerStates.refreshStatus === "error") {
-      refreshButtonIcon = <CloudOffIcon color={"error"} />;
+    if (states.refreshStatus === "success") {
+      refreshButtonIcon = <CloudDoneOutlined color={"inherit"} />;
+    } else if (states.refreshStatus === "error") {
+      refreshButtonIcon = <CloudOffOutlined color={"inherit"} />;
     } else {
-      refreshButtonIcon = <RefreshIcon />;
+      refreshButtonIcon = <Refresh />;
     }
   }
 
   return (
     <header className={styles.appBar}>
-      <NavLink className={styles.logoLink} to={"/"} target={"_self"}>
-        <KwikNotesLogo w={2} />
-        Kwik Notes
-      </NavLink>
+      <LogoLink w={2} />
       <div className={styles.search} role={"search"}>
         <button
           type={"button"}
@@ -109,7 +120,7 @@ export default function Header() {
           onClick={() => searchBoxRef.current.focus()}
           aria-label={"Search notes"}
         >
-          <SearchIcon />
+          <Search />
         </button>
         <input
           className={styles.searchBox}
@@ -117,11 +128,11 @@ export default function Header() {
           id={"search-box"}
           placeholder={"Search"}
           role={"searchbox"}
-          onChange={({ target }) =>
-            setHeaderStates((prev) => ({ ...prev, searchQuery: target.value }))
+          onChange={({ target: { value } }) =>
+            setStates((prev) => ({ ...prev, query: value }))
           }
           spellCheck={"false"}
-          value={headerStates.searchQuery}
+          value={states.query}
           ref={searchBoxRef}
           type={"text"}
           aria-label={"Search"}
@@ -129,67 +140,52 @@ export default function Header() {
         <button
           type={"button"}
           className={`${styles.clearQueryBtn}`}
-          onClick={() =>
-            setHeaderStates((prev) => ({ ...prev, searchQuery: "" }))
-          }
+          onClick={() => setStates((prev) => ({ ...prev, query: "" }))}
           aria-label={"Clear search"}
-          disabled={!headerStates.searchQuery}
+          disabled={!states.query}
         >
-          <CloseIcon sx={{ opacity: headerStates.searchQuery ? 1 : 0 }} />
+          <Close sx={{ opacity: states.query ? 1 : 0 }} />
         </button>
       </div>
       <div className={styles.navTools}>
         <button
           className={styles.headerBtns}
           onClick={() => refreshNotes()}
-          disabled={headerStates.refreshing}
+          disabled={states.refreshing}
           aria-label={"Refresh notes"}
         >
           {refreshButtonIcon}
         </button>
         <button
           className={styles.headerBtns}
-          onClick={() =>
-            setContexts((prev) => ({
-              ...prev,
-              mansoryDisplay: !prev.mansoryDisplay,
-            }))
-          }
-          aria-label={contexts.mansoryDisplay ? "List view" : "Grid view"}
+          onClick={() => setGridView((prev) => !prev)}
+          aria-label={gridView ? "List view" : "Grid view"}
         >
-          {contexts.mansoryDisplay ? <ViewAgendaIcon /> : <GridViewIcon />}
+          {gridView ? <ViewAgenda /> : <GridViewIcon />}
         </button>
         <button
           className={styles.headerBtns}
-          // type={"button"}
+          type={"button"}
           aria-label={"Settings"}
         >
-          <SettingsIcon />
+          <Settings />
         </button>
         <span className={styles.divider} />
         <button
           className={styles.headerBtns}
-          // type={"button"}
+          type={"button"}
           aria-label={"More apps"}
         >
-          <AppsIcon />
+          <Apps />
         </button>
-        <>
-          <button
-            className={styles.headerBtns}
-            onClick={() =>
-              setContexts((prev) => ({
-                ...prev,
-                showUserDetails: !prev.showUserDetails,
-              }))
-            }
-            aria-label={"User details"}
-            aria-expanded={contexts.showUserDetails}
-          >
-            <PersonIcon />
-          </button>
-          <UserDetails />
-        </>
+        <button
+          className={styles.headerBtns}
+          onClick={() => setShowAccountState((prev) => !prev)}
+          aria-label={"User details"}
+          aria-expanded={showAccountState}
+        >
+          <Person />
+        </button>
       </div>
     </header>
   );

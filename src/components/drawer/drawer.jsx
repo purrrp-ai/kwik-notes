@@ -1,52 +1,46 @@
-import { KwikNotesContext } from "@context/kwik-notes_context-provider";
-import * as muiIcons from "@mui/icons-material";
-import React, { useContext } from "react";
-import * as RRD from "react-router-dom";
+import {
+  Archive,
+  ChevronLeft,
+  Create,
+  Delete,
+  GitHub,
+  Lightbulb,
+  Menu,
+  Notifications,
+} from "@mui/icons-material";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { Context } from "../context-provider";
 import styles from "./drawer.module.css";
 
 export default function Drawer() {
-  const { contexts, setContexts } = useContext(KwikNotesContext);
+  const { navOpen, setNavOpen } = useContext(Context);
 
   return (
     <aside
-      aria-expanded={contexts.drawerCollapsed}
+      aria-expanded={navOpen}
       id={"side-drawer"}
-      className={
-        contexts.drawerCollapsed
-          ? `${styles.drawer} ${styles.drawerCollapsed}`
-          : styles.drawer
-      }
+      className={navOpen ? styles.drawer : `${styles.drawer} ${styles.navOpen}`}
     >
       <button
         className={`${styles.collapsibleBtn} ${styles.expandToggle}`}
-        onClick={() =>
-          setContexts((prev) => ({
-            ...prev,
-            drawerCollapsed: !prev.drawerCollapsed,
-          }))
-        }
-        aria-label={
-          contexts.drawerCollapsed ? "Collapse drawer" : "Expand drawer"
-        }
+        onClick={() => setNavOpen((prev) => !prev)}
+        aria-label={navOpen ? "Expand drawer" : "Collapse drawer"}
       >
-        {contexts.drawerCollapsed ? (
-          <muiIcons.Menu />
-        ) : (
-          <muiIcons.ChevronLeft />
-        )}
-        {contexts.drawerCollapsed ? null : <span>Collapse</span>}
+        {navOpen ? <ChevronLeft /> : <Menu />}
+        {navOpen ? <span>Collapse</span> : null}
       </button>
       <span className={styles.divider} />
       <div className={styles.navLinksBtns}>
         {[
-          { to: "/", icon: <muiIcons.Lightbulb />, label: "Notes" },
+          { to: "/", icon: <Lightbulb />, label: "Notes" },
           {
             to: "/prompts",
-            icon: <muiIcons.NotificationsNone />,
+            icon: <Notifications />,
             label: "Prompts",
           },
         ].map((item, i) => (
-          <RRD.NavLink
+          <NavLink
             className={({ isActive }) =>
               isActive
                 ? `${styles.collapsibleLink} ${styles.active}`
@@ -57,22 +51,22 @@ export default function Drawer() {
             aria-label={item.label}
           >
             {item.icon}
-            {contexts.drawerCollapsed ? null : <span>{item.label}</span>}
-          </RRD.NavLink>
+            {navOpen ? <span>{item.label}</span> : null}
+          </NavLink>
         ))}
         <button
           aria-label={"Modify tags"}
           className={styles.collapsibleBtn}
           onClick={() => null}
         >
-          <muiIcons.Create />
-          {contexts.drawerCollapsed ? null : <span>Modify tags</span>}
+          <Create />
+          {navOpen ? <span>Modify tags</span> : null}
         </button>
         {[
-          { to: "/stash", icon: <muiIcons.Archive />, label: "Stash" },
-          { to: "/bin", icon: <muiIcons.Delete />, label: "Bin" },
+          { to: "/stash", icon: <Archive />, label: "Stash" },
+          { to: "/bin", icon: <Delete />, label: "Bin" },
         ].map((item, i) => (
-          <RRD.NavLink
+          <NavLink
             className={({ isActive }) =>
               isActive
                 ? `${styles.collapsibleLink} ${styles.active}`
@@ -83,18 +77,19 @@ export default function Drawer() {
             aria-label={item.label}
           >
             {item.icon}
-            {contexts.drawerCollapsed ? null : <span>{item.label}</span>}
-          </RRD.NavLink>
+            {navOpen ? <span>{item.label}</span> : null}
+          </NavLink>
         ))}
       </div>
       <a
         href={"https://github.com/purrrplelipton"}
         target={"_blank"}
-        className={`${styles.collapsibleLink} ${styles.attribution}`}
+        className={`${styles.attribution}`}
         aria-label={"Creator's GitHub"}
+        rel="noreferrer"
       >
-        <muiIcons.GitHub />
-        {contexts.drawerCollapsed ? null : <span>purrrplelipton</span>}
+        <GitHub />
+        {navOpen ? <span>purrrplelipton</span> : null}
       </a>
     </aside>
   );

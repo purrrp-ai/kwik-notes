@@ -1,6 +1,6 @@
 .actual-note {
-  all: unset;
   background-color: var(--notepad);
+  color: var(--deep-blue);
   border: 1px solid hsla(205, 20%, 19%, 0.5);
   border-radius: 0.75em;
   max-width: 40em;
@@ -45,54 +45,105 @@
 }
 
 .note-attributes {
-  padding: 0.75em 1em;
-  pointer-events: none;
+  padding: 0.75em 1em 0;
+  /* pointer-events: none; */
   user-select: none;
 }
 
 .note-title {
+  margin: 0;
   font-size: 1.125em;
   font-weight: bold;
 }
 
-.note-toolbar {
+.note-content {
+  margin: 0;
+  line-height: 1.5em;
+  text-decoration: underline;
+}
+
+.note-toolie {
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: space-evenly;
-  gap: 0.375em;
+  gap: 0.25em;
   padding: 0 0.1875em 0.1875em;
-  transition-delay: 75ms;
-}
-
-.note-toolbar button {
-  all: unset;
-  border: 1px solid transparent;
-  font-size: 1.25em;
-  padding: 0.25em;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-}
-
-.note-toolbar button svg {
-  font-size: inherit;
-}
-
-.note-toolbar button:focus:not(:hover) {
-  border-color: var(--deep-blue);
-}
-
-.note-toolbar button:hover {
-  background-color: hsla(205, 20%, 19%, 0.3);
 }
 
 .toggle-container,
-.note-toolbar {
+.note-toolie {
   opacity: 0;
   visibility: hidden;
 }
 
-.actual-note:is(:hover, :focus-within) :is(.toggle-container, .note-toolbar) {
+.actual-note:is(:hover, :focus, :focus-within)
+  :is(.toggle-container, .note-toolie),
+.show-toolies {
   opacity: 1;
   visibility: visible;
+}
+
+.prompting-wrapper,
+.extra-btns-wrapper {
+  position: absolute;
+  overflow: hidden;
+  top: 100%;
+  width: max-content;
+  left: 0;
+  background-color: var(--notepad);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.prompting-wrapper {
+  border-radius: 8px;
+  width: 240px;
+}
+
+.prompting-wrapper p {
+  margin: 0;
+  padding: 0.75em;
+  user-select: none;
+  padding-left: 2em;
+  box-shadow: 0 -1px 1px inset;
+  font-family: "Gloria Hallelujah", cursive;
+}
+
+.prompting-wrapper form {
+  padding: 1em;
+  padding-top: 0;
+  font-weight: bolder;
+}
+
+.prompting-wrapper form button {
+  font-family: "Gloria Hallelujah", cursive;
+}
+
+.prompting-wrapper form :is(input, select) {
+  background-color: transparent;
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 4px 2px;
+  outline: 1px solid transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.extra-btns-wrapper button {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  text-align: unset;
+
+  font-weight: bolder;
+  border: 0;
+  padding: 6px 14px;
+  text-transform: none;
+}
+
+.extra-btns-wrapper .button:not(:focus):hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }

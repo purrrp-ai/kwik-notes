@@ -1,0 +1,76 @@
+.logo-link {
+  text-decoration: none;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 1.375em;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.1em;
+  padding-left: 0;
+  padding-right: 0.2em;
+  margin-right: 1.875em;
+  border-radius: 4px;
+  flex: 1 0 auto;
+  user-select: none;
+}
+
+.logo-link:not(:focus):hover {
+  background-color: hsla(205, 20%, 19%, 0.2);
+}
+
+.logo-link::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: scale(0.9);
+  background-color: var(--deep-blue);
+  opacity: 0;
+}
+
+@keyframes pulsate {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.logo-link:not(:hover):focus::before {
+  opacity: 0.2;
+  animation: pulsate 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate both;
+}
+
+.logo-link::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  background-color: var(--notepad);
+  width: 0;
+  height: 1px;
+}
+
+.logo-link:not(:focus):hover::after {
+  width: 100%;
+  transform-origin: right;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-link:not(:focus):hover {
+    background-color: hsla(171, 45%, 64%, 0.15);
+  }
+
+  .logo-link::before {
+    background-color: var(--kinda-teal);
+  }
+}

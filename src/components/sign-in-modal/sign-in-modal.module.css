@@ -1,0 +1,78 @@
+.form-wrapper {
+  outline: 1px solid transparent;
+  width: 416px;
+  background-color: var(--notepad);
+  color: var(--deep-blue);
+  border-radius: 8px;
+  box-shadow: hsl(42, 85%, 67%) 0px 2px 4px, hsl(42, 85%, 64%) 0px 7px 13px -3px,
+    hsl(42, 85%, 61%) 0px -3px 0px inset;
+  padding: 12px 24px;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hide-wrapper {
+  transform: translateY(-175%);
+}
+
+.top-section {
+  display: flex;
+}
+
+.top-section a {
+  flex: none;
+  margin: 0.5em auto 0.75em;
+}
+
+.top-section a:not(:focus):hover {
+  background-color: hsla(205, 20%, 19%, 0.1);
+}
+
+.top-section a::after {
+  background-color: var(--deep-blue);
+}
+
+.sign-in-method-toggle {
+  border: 1px solid transparent;
+  outline: 1px solid transparent;
+  background-color: transparent;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+.sign-in-method-toggle:not(:focus):hover {
+  background-color: hsla(205, 20%, 20%, 0.05);
+}
+
+.sign-in-method-toggle:not(:hover):focus {
+  border-color: hsla(205, 20%, 20%, 0.25);
+}
+
+.sign-up-text {
+  text-align: center;
+  margin-block-start: 2em;
+  margin-block-end: 1em;
+  color: hsla(205, 20%, 20%, 0.75);
+  pointer-events: none;
+  user-select: none;
+}
+
+.sign-up-text a,
+.switch-btn {
+  font-family: "Gloria Hallelujah", cursive;
+  background-color: transparent;
+  color: var(--deep-blu, #121212);
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0 2px;
+  outline: 1px solid transparent;
+  pointer-events: auto;
+}
+
+.sign-up-text :is(a, .switch-btn):not(:focus):hover {
+  background-color: hsla(205, 20%, 20%, 0.075);
+}
+
+.sign-up-text :is(a, .switch-btn):not(:hover):focus {
+  border-color: hsla(205, 20%, 20%, 0.5);
+}

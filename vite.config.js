@@ -1,14 +1,13 @@
 import react from "@vitejs/plugin-react";
-import * as vite from "vite";
+import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
-export default vite.defineConfig({
+export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
       "@assets": ["./src/assets"],
       "@components": ["./src/components"],
-      "@context": ["./src/context"],
       "@data": ["./src/data"],
       "@hooks": ["./src/hooks"],
       "@pages": ["./src/pages"],
@@ -17,8 +16,8 @@ export default vite.defineConfig({
   },
   server: {
     proxy: {
-      "/gwy": {
-        target: "http://localhost:8000",
+      "/api": {
+        target: "http://localhost:8080",
         changeOrigin: true,
       },
     },
